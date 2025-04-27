@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package g1.protocol;
+option  go_package = "./g1_protocol";
+
+import "room.proto";
+import "struct.proto";
+import "game_enum.proto";
+
+// 游戏房间数据db
+//@db:string|Global|DBTexasRoomData:%s,RoomId|#multi
+message DBTexasRoomData {
+    uint64              room_id             = 1;
+    RoomBaseInfo        base                = 2;
+    map<uint64, uint32> looker_map          = 3;
+    TableTexasGameData  table               = 4;
+    GameState           cur_state           = 5;
+    int64               total_buyin_chips   = 6; // 总买入筹码
+    int64               total_service_chips = 7; // 总服务费
+    int64               total_runing_water  = 8; // 总流水
+    int64               total_join_count    = 9; // 参与游戏玩家列表
+}
+
+// 游戏大厅房间信息数据db
+//@db:string|Global|DBTexasRoomCenterInfo:%s,RoomId|#multi
+message DBTexasRoomCenterInfo {
+    uint64                    Index      = 1; // rid index
+    RoomStage                 stage      = 2; // RoomStage
+    map<uint64, RoomShowInfo> rooms_map  = 3; // key:房间id, value: 房间展示信息
+    uint32                    room_count = 4; // 房间数量
+}

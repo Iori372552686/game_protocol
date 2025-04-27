@@ -1,0 +1,76 @@
+syntax = "proto3";
+package g1.protocol;
+option  go_package = "./g1_protocol";
+
+import "game_enum.proto";
+import "role.proto";
+
+message TexasRoomInfo {
+    RoomBaseInfo base_info = 1;
+}
+
+message RoomOwerInfo {
+    string          FigureUrl = 1;
+    string          Gender    = 2;
+    string          NickName  = 3;
+    string          sign      = 4; // 签名
+    int32           MaxNoble  = 5; // VIP等级
+    string          WeChat    = 6; // 微信帐号
+    repeated uint32 clubIds   = 7; // 加入的俱乐部id
+}
+
+message BuyingPlayerInfo {
+    uint32 playerid      = 1;
+    string NickName      = 2;
+    uint32 buyingNum     = 3; // 买入数
+    uint32 room_id       = 4;
+    uint32 dwSurplusTime = 5;  // 买入审批剩余时间(秒)
+    uint32 dwEndTime     = 6;  // 审批结束时间戳
+    uint32 club_id       = 7;  // 俱乐部id
+    int32  verify_id     = 10; // 审批者
+    string face_url      = 11; // 头像
+}
+
+message RoomBaseInfo {
+    uint64              id             = 1;  // 游戏牌局id，落地存储唯一的id，结算绑定参与的所有玩家
+    uint64              room_id        = 2;  // 房间id
+    RoomState           state          = 3;  // 房间状态 //RoomState
+    string              name           = 4;  // 房间名
+    string              pwd            = 5;  // 邀请码 or 密码
+    GameTypeId          game_id        = 6;  // 游戏id
+    RoomStage           stage          = 7;  // RoomStage
+    uint32              max_member     = 8;  // 房间里的人数
+    uint32              max_player     = 9;  // 普通场椅子数 //SNG表示必须坐满开局的人数,MTT最大报名人数
+    uint32              zone           = 10; // 区服组
+    bool                is_private     = 11; // 是否私人局
+    string              blind          = 12; // 小/大盲注 例如: 1/2 小盲1 大盲2 SNG表示报名费 1000/100  报名费/服务费
+    uint32              ante           = 13; // 前注,为0 或没有该字段表示没有前注
+    int64               game_time      = 14; // 总时间单位秒, /SNG表示涨盲时间
+    bool                is_auth        = 15; // 是否授权带入,sng授权报名
+    uint32              start_bb       = 16; // 起始筹码
+    int64               start_time     = 17; // 开始时间
+    uint64              ower_id        = 18; // 房主uid
+    bool                is_rebuy       = 19; // MTT 是否 rebuy
+    bool                is_addon       = 20; // MTT 是否 Addon
+    PbIconDesc          owner_info     = 21; // 创建者信息
+    int64               end_time       = 22; // 游戏结束时间
+    uint32              club_id        = 23; // 俱乐部id,非俱乐部成员不允许加入
+    GameCompetitionType competition    = 24; // 比赛类型
+    bool                is_insure      = 25; // 是否开启保险
+    int32               straddle       = 26; // 是否Straddle
+    bool                ip_limit       = 27; // 是否ip限制
+    CoinType            coin_type      = 28; // 币种类型
+    uint32              allianceid     = 29; // 联盟id
+    bool                gps_limit      = 30; // Gps 限制
+    int64               create_time    = 31; // 创建时间
+    int32               MinBuyIn       = 32; // 最小买入
+    int32               MaxBuyIn       = 33; // 最大买入
+    uint32              cur_player_num = 34; // 当前玩家人数
+}
+
+//大厅房间展示信息
+//ROOM_CENTER_INNER_UPDATE_ROOM_INFO_REQ
+message RoomShowInfo {
+    uint64       room_id = 1;
+    RoomBaseInfo base    = 2;
+}

@@ -1,0 +1,157 @@
+syntax = "proto3";
+
+package g1.protocol;
+option  go_package = "./g1_protocol";
+
+import "role.proto";
+import "game_enum.proto";
+
+//inner room TickReq
+message InnerTickReq {
+    int64  nowMs      = 1; // 当前时间戳
+    uint64 roomId     = 2; // 房间id
+    uint32 src_bus_id = 3; // 发送者bus id
+}
+
+// 底池结构
+message PotTexasGameData {
+    uint32          pot_type = 1; // 底池类型：0-主池，1-边池
+    int64           chips    = 2; // 总筹码
+    repeated uint64 uid_list = 3; // 玩家id
+}
+
+message PotPoolTexasGameData {
+    int64                     total_bet_chips = 1; // 下注总筹码
+    int64                     bet_chips       = 2; // 下注筹码
+    repeated PotTexasGameData pot_list        = 3; // 底池
+}
+
+// 玩家个人texas游戏数据结构
+message PlayerTexasGameData {
+    uint64      uid           = 1;  // 玩家id
+    uint32      chair_id      = 2;  // 座位号
+    int64       chips         = 3;  // 玩家筹码
+    bool        is_change     = 4;  // 是否变更
+    uint32      position      = 5;  // 玩家位置
+    uint32      player_state  = 6;  // 加入房间、加入牌桌、退出牌桌、结算完成
+    GameState   game_state    = 7;  // 游戏状态
+    OperateType operate_type  = 8;  // 玩家操作
+    int64       bet_chips     = 9;  // 玩家下注
+    OperateType pre_opr       = 10; // 是否预操作
+    int64       pre_bet_chips = 11; // 预下注筹码
+}
+
+// 游戏结构
+message TexasGameData {
+    GameState            game_state       = 1;  // 游戏状态
+    uint32               dealer_chair_id  = 2;  // 庄家座位号
+    uint32               small_chair_id   = 4;  // 小盲座位号
+    uint32               big_chair_id     = 5;  // 大盲座位号
+    int64                big_blind        = 6;  // 大盲注
+    int64                min_raise        = 7;  // 最小加注
+    int64                max_bet_chips    = 8;  // 最大下注筹码
+    repeated uint32      public_card_list = 9;  // 展示公共牌
+    uint32               cursor           = 10; // 当前操作玩家
+    repeated uint64      uid_list         = 11; // 玩家数据
+    PotPoolTexasGameData pots             = 12; // 底池
+    bool                 is_compare       = 13; // 是否出发比牌
+}
+
+// 牌堆数据
+message TexasGamePrivateData {
+    uint32                               cursor  = 1; // 牌堆游标位置
+    repeated uint32                      cards   = 2; // 牌堆
+    map<uint64, PlayerTexasGameCardData> players = 4; // 玩家手牌
+}
+
+message PlayerTexasGameCardData {
+    uint64          uid             = 1;
+    CardType        best_type       = 2; // 玩家最大牌型
+    uint32          best_card_value = 3;
+    repeated uint32 best_card_list  = 4; // 玩家最大牌
+    repeated uint32 hand_card_list  = 5; // 玩家手牌
+    repeated bool   hand_show_list  = 6; // 是否展示
+}
+
+// 游戏牌桌数据结构
+message TableTexasGameData {
+    RoomState                        room_state   = 1;
+    uint32                           round        = 2; // 当前游戏轮数
+    map<uint64, PlayerTexasGameData> players      = 3; // 玩家数据
+    map<uint32, uint64>              chair_info   = 4; // 玩家座位号和uid的映射关系
+    TexasGameData                    game_data    = 5; // 游戏数据
+    TexasGamePrivateData             private_data = 6; // 牌堆数据
+}
+
+//   -------------- 游戏事件通知结构 --------------
+// NOTIFY_EVENT_BET,NOTIFY_EVENT_CALL,NOTIFY_EVENT_RAISE,NOTIFY_EVENT_CHECK,NOTIFY_EVENT_BET_ANTE
+// NOTIFY_EVENT_BET_BIG_BLIND,NOTIFY_EVENT_BET_SMALL_BLIND,NOTIFY_EVENT_BET_SMALL_BLIND
+message NotifyGameEventBet {
+    uint64               room_id       = 1;  // 房间id
+    uint32               chair_id      = 2;  // 下注玩家
+    int64                chips         = 3;  // 玩家手里筹码
+    uint32               next_chair_id = 4;  // 下一个下注玩家
+    OperateType          operate_type  = 5;  // 玩家操作类型
+    int64                bet_chips     = 6;  // 玩家下注金额,看牌&弃牌为0
+    PotPoolTexasGameData Pots          = 7;  // 筹码池
+    int64                min_raise     = 8;  // 最小加注
+    int64                max_bet_chips = 9;  // 最大下注筹码
+    int64                duration      = 10; // 时间戳
+}
+
+// NOTIFY_EVENT_DEAL,NOTIFY_FLOP_CARD
+message NotifyGameEventDeal {
+    uint64               room_id          = 1; // 房间id
+    GameState            game_state       = 2; // 游戏状态
+    repeated uint32      hands_card       = 3; // 手牌 or 公共牌
+    uint32               cur_bet_chair_id = 4; // 当前下注玩家座位
+    PotPoolTexasGameData Pots             = 5; // 筹码池
+    int64                duration         = 6; // 时间戳
+}
+
+// EVENT_BET_PRE_FOLP,EVENT_BET_FOLP,EVENT_BET_TURN,EVENT_BET_RIVER
+message NotifyGameEventFolpBet {
+    uint64    room_id          = 1; // 房间id
+    GameState game_state       = 2; // 游戏状态
+    uint32    cur_bet_chair_id = 3; // 当前下注玩家座位
+}
+
+// NOTIFY_EVENT_SIT_DOWN,NOTIFY_EVENT_STAND_UP,NOTIFY_EVENT_LEAVE,NOTIFY_EVENT_READY,NOTIFY_EVENT_CANCEL_READY,NOTIFY_EVENT_FOLD
+message NotifyGameEventRole {
+    uint64              room_id  = 1; // 房间id
+    uint32              chair_id = 2; // 下注玩家
+    PbIconDesc          role     = 3; // 玩家头像信息
+    PlayerTexasGameData player   = 4; // 玩家数据
+}
+
+// NOTIFY_EVENT_GAME_START,NOTIFY_EVENT_GAME_END,NOTIFY_EVENT_GAME_PAUSE,NOTIFY_EVENT_GAME_RESUME,NOTIFY_EVENT_GAME_RESET
+message NotifyGameEvent {
+    uint64                    room_id          = 1; // 房间id
+    uint32                    round            = 2; // 当前回合
+    uint32                    dealer_chair     = 3; // 庄家座位号
+    uint32                    small_chair      = 4; // 小盲座位号
+    uint32                    big_chair        = 5; // 大盲座位号
+    uint32                    small_chip       = 6; // 小盲位筹码
+    uint32                    big_chip         = 7; // 大盲位筹码
+    uint32                    cur_bet_chair_id = 8; // 当前下注玩家座位
+    PotPoolTexasGameData      Pots             = 9; // 筹码池
+    repeated TexasGameEndInfo end_info         = 10;
+    int64                     duration         = 11; // 时间戳
+}
+
+message TexasGameEndInfo {
+    uint64          uid       = 1;
+    uint32          chair_id  = 2;
+    int64           chips     = 3;
+    int64           win_chips = 4;
+    CardType        card_type = 5; // 牌型
+    repeated uint32 hands     = 6;
+    repeated uint32 bests     = 7; // 最大牌型
+}
+
+// NOTIFY_EVENT_BLIND
+message NotifyGameEventBlind {
+    uint64 room_id = 1; // 房间id
+    uint64 small   = 2; // 小盲
+    uint64 big     = 3; // 大盲
+}

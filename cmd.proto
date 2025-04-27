@@ -1,0 +1,657 @@
+syntax = "proto3";
+
+package g1.cmd;
+option  go_package = "./g1_protocol";
+
+// cmd = 0xXXYZZZ
+// 其中XX为server_type, Y为cmd类型,0为客户端请求,1为内部请求,3为服务器向客户端的推送,A为GM指令
+//   XX=02(服务类型), ZZZ=具体协议自增序号
+//   REQ: 偶数结尾 (0x020200, 0x020202, ...)
+//   RSP: 奇数结尾 (0x020201, 0x020203, ...)
+
+enum CMD {
+    _CMD_ZERO = 0;
+
+    // -------- Notify To Client --------
+
+    // 强制下线
+    SC_KICK_OUT = 0x003001;
+
+    // 同步玩家数据
+    SC_SYNC_USER_DATA = 0x003002;
+
+    // 聊天信息推送
+    SC_CHAT = 0x003003;
+
+    // 通知客户端数据有变动
+    SC_DATA_CHANGE_NOTIFY = 0x003004;
+
+    // 游戏内事件通知
+    SC_GAME_EVENT_NOTIFY = 0x003005;
+
+    // -------- connsvr(server_type = 1) --------
+
+    CONN_KICK_OUT_REQ = 0x011000;
+    CONN_KICK_OUT_RSP = 0x011001;
+
+    CONN_BROADCAST_REQ = 0x011002;
+    CONN_BROADCAST_RSP = 0x011003;
+
+    // -------- mainsvr(server_type = 2) --------
+
+    // 登陆
+    MAIN_LOGIN_REQ = 0x020000;
+    MAIN_LOGIN_RSP = 0x020001;
+
+    // 登出
+    MAIN_LOGOUT_REQ = 0x020002;
+    MAIN_LOGOUT_RSP = 0x020003;
+
+    //心跳
+    MAIN_HEARTBEAT_REQ = 0x020004;
+    MAIN_HEARTBEAT_RSP = 0x020005;
+
+    // 道具使用
+    MAIN_ITEM_USE_REQ = 0x020006;
+    MAIN_ITEM_USE_RSP = 0x020007;
+
+    // 改名
+    MAIN_CHANGE_NAME_REQ = 0x020008;
+    MAIN_CHANGE_NAME_RSP = 0x020009;
+
+    // 改头像
+    MAIN_CHANGE_ICON_REQ = 0x02000A;
+    MAIN_CHANGE_ICON_RSP = 0x02000B;
+
+    // ~~~~~~~~~~~~引导功能~~~~~~~~~~~~~~~~~~
+    // 发送已经完成的ID
+    GUIDE_COMPLETED_REQ = 0x0201B4;
+    GUIDE_COMPLETED_RSP = 0x0201B5;
+    // 发送正在进行的ID
+    GUIDE_IN_PROGRESS_REQ = 0x0201B6;
+    GUIDE_IN_PROGRESS_RSP = 0x0201B7;
+
+    // ~~~~~~~~~~商城相关~~~~~~~~~~
+
+    // 购买礼包
+    MAIN_MALL_BUY_PACKAGE_REQ = 0x0201B0;
+    MAIN_MALL_BUY_PACKAGE_RSP = 0x0201B1;
+
+    // 充值
+    MAIN_MALL_RECHARGE_REQ = 0x0201B2;
+    MAIN_MALL_RECHARGE_RSP = 0x0201B3;
+
+    // ~~~~~~~~~~主线任务相关~~~~~~~~~~
+    // 完成主线任务
+    MAIN_TASK_FINISH_REQ = 0x0201D0;
+    MAIN_TASK_FINISH_RSP = 0x0201D1;
+
+    //-----------------游戏相关-----------------
+
+    // ------------------- 基础操作 -------------------
+    MAIN_GAME_ROOM_LIST_REQ = 0x020200; // [客户端]请求房间列表
+    MAIN_GAME_ROOM_LIST_RSP = 0x020201; // [推送]房间列表数据
+
+    MAIN_GAME_DO_BET_REQ = 0x020202; // [客户端]下注操作
+    MAIN_GAME_DO_BET_RSP = 0x020203; // [推送]下注结果广播
+
+    MAIN_GAME_FOLD_REQ = 0x020204; // [客户端]弃牌操作
+    MAIN_GAME_FOLD_RSP = 0x020205; // [推送]弃牌状态同步
+
+    MAIN_GAME_GET_LOOKERS_REQ = 0x020206; // [客户端]请求围观列表
+    MAIN_GAME_GET_LOOKERS_RSP = 0x020207; // [推送]围观玩家头像数据
+
+    MAIN_GAME_SIT_DOWN_REQ = 0x020208; // [客户端]坐下请求
+    MAIN_GAME_SIT_DOWN_RSP = 0x020209; // [推送]座位状态更新
+
+    MAIN_GAME_STAND_UP_REQ = 0x02020A; // [客户端]站起请求
+    MAIN_GAME_STAND_UP_RSP = 0x02020B; // [推送]站起结果通知
+
+    MAIN_GAME_LEAVE_GAME_REQ = 0x02020C; // [客户端]离开游戏请求
+    MAIN_GAME_LEAVE_GAME_RSP = 0x02020D; // [推送]离开确认
+
+    MAIN_GAME_MILITARY_SUCCESS_REQ = 0x02020E; // [客户端]请求战绩
+    MAIN_GAME_MILITARY_SUCCESS_RSP = 0x02020F; // [推送]战绩数据
+
+    MAIN_GAME_GET_GAME_LOG_REQ = 0x020210; // [客户端]请求牌谱
+    MAIN_GAME_GET_GAME_LOG_RSP = 0x020211; // [推送]牌谱记录
+
+    MAIN_GAME_GET_TIME_LEFT_REQ = 0x020212; // [客户端]查询剩余时间
+    MAIN_GAME_GET_TIME_LEFT_RSP = 0x020213; // [推送]时间状态更新
+
+    MAIN_GAME_VOICE_CALL_REQ = 0x020214; // [客户端]语音呼叫
+    MAIN_GAME_VOICE_CALL_RSP = 0x020215; // [推送]语音状态
+
+    MAIN_GAME_BUY_THINK_TIME_REQ = 0x020216; // [客户端]购买思考时间
+    MAIN_GAME_BUY_THINK_TIME_RSP = 0x020217; // [推送]资源变更通知
+
+    MAIN_GAME_AUTO_BUYIN_REQ = 0x020218; // [客户端]自动买入设置
+    MAIN_GAME_AUTO_BUYIN_RSP = 0x020219; // [推送]设置生效通知
+
+    MAIN_GAME_INTERACTION_REQ = 0x02021A; // [客户端]互动请求
+    MAIN_GAME_INTERACTION_RSP = 0x02021B; // [推送]互动动作广播
+
+    MAIN_GAME_EMOTICON_REQ = 0x02021C; // [客户端]表情发送请求
+    MAIN_GAME_EMOTICON_RSP = 0x02021D; // [推送]表情动作广播
+
+    MAIN_GAME_BUY_IN_REQ = 0x02021E; // [客户端]买入请求
+    MAIN_GAME_BUY_IN_RSP = 0x02021F; // [推送]买入结果通知
+
+    MAIN_GAME_GET_MILITARY_DIAGRAM_REQ = 0x020220; // [客户端]请求战绩折线图
+    MAIN_GAME_GET_MILITARY_DIAGRAM_RSP = 0x020221; // [推送]战绩折线图数据
+
+    MAIN_GAME_SHOW_CARD_REQ = 0x020222; // [客户端]翻牌展示请求
+    MAIN_GAME_SHOW_CARD_RSP = 0x020223; // [推送]牌面状态广播
+
+    MAIN_GAME_GET_ROLE_INFO_REQ = 0x020224; // [客户端]请求玩家详细信息
+    MAIN_GAME_GET_ROLE_INFO_RSP = 0x020225; // [推送]玩家详细信息响应
+
+    MAIN_GAME_MARK_PLAYER_REQ = 0x020226; // [客户端]标记玩家请求
+    MAIN_GAME_MARK_PLAYER_RSP = 0x020227; // [推送]标记状态同步
+
+    MAIN_GAME_INSURANCE_BUY_REQ = 0x020228; // [客户端]购买保险请求
+    MAIN_GAME_INSURANCE_BUY_RSP = 0x020229; // [推送]保险结果通知
+
+    MAIN_GAME_ROOM_SET_REQ = 0x02022A; // [客户端]房间设置修改
+    MAIN_GAME_ROOM_SET_RSP = 0x02022B; // [推送]设置生效通知
+
+    MAIN_GAME_SNG_GET_BLIND_LEVEL_REQ = 0x02022C; // [客户端]请求盲注等级
+    MAIN_GAME_SNG_GET_BLIND_LEVEL_RSP = 0x02022D; // [推送]盲注等级数据
+
+    MAIN_GAME_GET_ROOM_INFO_REQ = 0x02022E; // [客户端]请求房间详情
+    MAIN_GAME_GET_ROOM_INFO_RSP = 0x02022F; // [推送]房间详情响应
+
+    MAIN_GAME_INSURANCE_THINK_TIME_REQ = 0x020230; // [客户端]保险思考时间查询
+    MAIN_GAME_INSURANCE_THINK_TIME_RSP = 0x020231; // [推送]保险倒计时推送
+
+    MAIN_GAME_INSURANCE_OP_REQ = 0x020232; // [客户端]保险操作请求
+    MAIN_GAME_INSURANCE_OP_RSP = 0x020233; // [推送]保险操作结果广播
+
+    MAIN_GAME_GET_GAME_INFO_REQ = 0x020234; // [客户端]弱网时获取牌局信息
+    MAIN_GAME_GET_GAME_INFO_RSP = 0x020235; // [推送]完整牌局状态推送
+
+    MAIN_GAME_ADD_TO_FAVORITE_REQ = 0x020236; // [客户端]添加收藏请求
+    MAIN_GAME_ADD_TO_FAVORITE_RSP = 0x020237; // [推送]收藏列表更新
+
+    MAIN_GAME_CHANGE_SKIN_REQ = 0x020238; // [客户端]更换皮肤请求
+    MAIN_GAME_CHANGE_SKIN_RSP = 0x020239; // [推送]皮肤切换广播
+
+    MAIN_GAME_PREOPERATION_REQ = 0x02023A; // [客户端]预操作指令提交
+    MAIN_GAME_PREOPERATION_RSP = 0x02023B; // [推送]预操作状态确认
+
+    MAIN_GAME_RABBIT_HUNTING_REQ = 0x02023C; // [客户端]特殊活动请求
+    MAIN_GAME_RABBIT_HUNTING_RSP = 0x02023D; // [推送]活动数据响应
+
+    MAIN_GAME_EARLY_SETTLE_REQ = 0x02023E; // [客户端]提前结算请求
+    MAIN_GAME_EARLY_SETTLE_RSP = 0x02023F; // [推送]结算结果推送
+
+    MAIN_GAME_CREATE_ROOM_REQ = 0x020240; //创建房间
+    MAIN_GAME_CREATE_ROOM_RSP = 0x020241;
+
+    MAIN_GAME_JOIN_ROOM_REQ = 0x020242; //加入房间
+    MAIN_GAME_JOIN_ROOM_RSP = 0x020243;
+
+    MAIN_GAME_QUICK_START_REQ = 0x020244; //快速开始
+    MAIN_GAME_QUICK_START_RSP = 0x020245;
+
+    MAIN_GAME_BUY_IN_DETAIL_REQ = 0x020246; // 买入明细
+    MAIN_GAME_BUY_IN_DETAIL_RSP = 0x020247;
+    MAIN_QUERY_ROOM_INFO_REQ    = 0x020248; // 查询房间信息
+    MAIN_QUERY_ROOM_INFO_RSP    = 0x020249;
+    MAIN_QUERY_PLAYER_INFO_REQ  = 0x02024A; // 查询玩家信息
+    MAIN_QUERY_PLAYER_INFO_RSP  = 0x02024B;
+    MAIN_QUERY_GAME_INFO_REQ    = 0x02024C; // 查询游戏信息
+    MAIN_QUERY_GAME_INFO_RSP    = 0x02024D;
+
+    // ~~~~~~~~~~通知类~~~~~~~~~
+    //单个任务更新通知
+    MAIN_NOTIFY_ACTIVITY_TASK_SINGLE_UPDATE = 0x023001;
+
+    // ~~~~~~~~~~GM相关~~~~~~~~~~~~~
+
+    // 设置角色信息
+    MAIN_GM_GET_ROLE_REQ = 0x02A000;
+    MAIN_GM_GET_ROLE_RSP = 0x02A001;
+
+    MAIN_GM_SET_ROLE_REQ = 0x02A002;
+    MAIN_GM_SET_ROLE_RSP = 0x02A003;
+
+    MAIN_GM_ADD_ITEM_REQ = 0x02A004;
+    MAIN_GM_ADD_ITEM_RSP = 0x02A005;
+
+    // -------- infosvr(server_type = 3) --------
+
+    INFO_GET_BRIEF_INFO_REQ = 0x030000;
+    INFO_GET_BRIEF_INFO_RSP = 0x030001;
+
+    INFO_GET_ICON_DESC_REQ = 0x030002;
+    INFO_GET_ICON_DESC_RSP = 0x030003;
+
+    INFO_INNER_SET_BRIEF_INFO_REQ = 0x031000;
+    INFO_INNER_SET_BRIEF_INFO_RSP = 0x031001;
+
+    // -------- MailSvr (server_type = 6) --------
+    MAIL_GET_MAIL_LIST_REQ   = 0x060000; // 获取邮件
+    MAIL_GET_MAIL_LIST_RSP   = 0x060001;
+    MAIL_READ_MAIL_REQ       = 0x060002; // 阅读邮件
+    MAIL_READ_MAIL_RSP       = 0x060003;
+    MAIL_DEL_MAIL_REQ        = 0x060004; // 删除邮件
+    MAIL_DEL_MAIL_RSP        = 0x060005;
+    MAIL_GET_MAIL_ATTACH_REQ = 0x060006; // 领取附件
+    MAIL_GET_MAIL_ATTACH_RSP = 0x060007;
+    MAIL_INNER_ADD_MAIL_REQ  = 0x061000; // 添加邮件
+    MAIL_INNER_ADD_MAIL_RSP  = 0x061001;
+
+    // -------- chatsvr(server_type = 7) --------
+
+    // 发送聊天
+    CHAT_CHAT_REQ = 0x070000;
+    CHAT_CHAT_RSP = 0x070001;
+
+    // 获取聊天信息
+    CHAT_GET_CHAT_INFO_REQ = 0x070002;
+    CHAT_GET_CHAT_INFO_RSP = 0x070003;
+
+    // 删除好友聊天数据
+    CHAT_DEL_CHAT_REQ = 0x070004;
+    CHAT_DEL_CHAT_RSP = 0x070005;
+
+    // -------- friendsvr(server_type = 8) --------
+
+    // 获取社交信息
+    FRIEND_GET_FRIEND_INFO_REQ = 0x080000;
+    FRIEND_GET_FRIEND_INFO_RSP = 0x080001;
+
+    // 添加好友
+    FRIEND_ADD_FRIEND_REQ = 0x080002;
+    FRIEND_ADD_FRIEND_RSP = 0x080003;
+
+    // 确认添加好友
+    FRIEND_CONFIRM_FRIEND_REQ = 0x080004;
+    FRIEND_CONFIRM_FRIEND_RSP = 0x080005;
+
+    // 屏蔽玩家
+    FRIEND_SHIELD_USER_REQ = 0x080006;
+    FRIEND_SHIELD_USER_RSP = 0x080007;
+
+    // 搜索玩家
+    FRIEND_SEARCH_ROLE_REQ = 0x080008;
+    FRIEND_SEARCH_ROLE_RSP = 0x080009;
+
+    //------------ inner cmd ---------------
+
+    FRIEND_INNER_ADD_FRIEND_REQ = 0x081000;
+    FRIEND_INNER_ADD_FRIEND_RSP = 0x081001;
+
+    FRIEND_INNER_CONFIRM_FRIEND_REQ = 0x081002;
+    FRIEND_INNER_CONFIRM_FRIEND_RSP = 0x081003;
+
+    // -------- ranksvr(server_type = 9) --------
+
+    // -------- guildsvr(server_type = 10) --------
+
+    // -------- roomcenter svr(server_type = 11) --------
+    ROOM_CENTER_INNER_UPDATE_ROOM_INFO_REQ = 0x0B1000; // 更新房间信息
+    ROOM_CENTER_INNER_UPDATE_ROOM_INFO_RSP = 0x0B1001;
+
+    ROOM_CENTER_INNER_ROOM_LIST_REQ = 0x0B1002; // 获取房间信息
+    ROOM_CENTER_INNER_ROOM_LIST_RSP = 0x0B1003;
+
+    ROOM_CENTER_INNER_DEL_ROOM_INFO_REQ = 0x0B1004; // 删除房间信息
+    ROOM_CENTER_INNER_DEL_ROOM_INFO_RSP = 0x0B1005;
+
+    ROOM_CENTER_INNER_QUICK_START_REQ = 0x0B1006; // 玩家获取快速开始房间
+    ROOM_CENTER_INNER_QUICK_START_RSP = 0x0B1007;
+
+    ROOM_CENTER_INNER_TICK_REQ = 0x0B1008; // tick
+    ROOM_CENTER_INNER_TICK_RSP = 0x0B1009;
+
+    //----- texassvr(server_type  0x50) -----
+    //------------- c2s cmd --------------
+
+    //------------s2s inner cmd ---------------
+    TEXAS_INNER_CREATEROOM_REQ = 0x501000; // 创建房间
+    TEXAS_INNER_CREATEROOM_RSP = 0x501001;
+
+    TEXAS_INNER_JOINROOM_REQ = 0x501002; // 加入房间
+    TEXAS_INNER_JOINROOM_RSP = 0x501003;
+
+    TEXAS_INNER_FOLD_REQ = 0x501004; // 弃牌操作
+    TEXAS_INNER_FOLD_RSP = 0x501005;
+
+    TEXAS_INNER_GET_LOOKERS_REQ = 0x501006; //围观列表
+    TEXAS_INNER_GET_LOOKERS_RSP = 0x501007;
+
+    TEXAS_INNER_SIT_DOWN_REQ = 0x501008; // 坐下
+    TEXAS_INNER_SIT_DOWN_RSP = 0x501009;
+
+    TEXAS_INNER_STAND_UP_REQ = 0x50100A; // 站起
+    TEXAS_INNER_STAND_UP_RSP = 0x50100B;
+
+    TEXAS_INNER_GET_ROOM_INFO_REQ = 0x50100C; // 请求房间详情
+    TEXAS_INNER_GET_ROOM_INFO_RSP = 0x50100D;
+
+    TEXAS_INNER_DO_BET_REQ = 0x50100E; //下注
+    TEXAS_INNER_DO_BET_RSP = 0x50100F;
+
+    TEXAS_INNER_BUY_IN_REQ = 0x501010; //买入
+    TEXAS_INNER_BUY_IN_RSP = 0x501011;
+
+    TEXAS_INNER_GET_GAME_INFO_REQ = 0x501012; // 弱网时获取牌局信息
+    TEXAS_INNER_GET_GAME_INFO_RSP = 0x501013;
+
+    TEXAS_INNER_SHOW_CARD_REQ = 0x501014; // 翻牌展示
+    TEXAS_INNER_SHOW_CARD_RSP = 0x501015;
+
+    TEXAS_INNER_GET_ROLE_INFO_REQ = 0x501016; // 请求玩家详细信息
+    TEXAS_INNER_GET_ROLE_INFO_RSP = 0x501017;
+
+    TEXAS_INNER_MARK_PLAYER_REQ = 0x501018; // 标记玩家
+    TEXAS_INNER_MARK_PLAYER_RSP = 0x501019;
+
+    TEXAS_INNER_INSURANCE_BUY_REQ = 0x50101A; // 购买保险
+    TEXAS_INNER_INSURANCE_BUY_RSP = 0x50101B;
+
+    TEXAS_INNER_INSURANCE_OP_REQ = 0x50101C; // 保险操作
+    TEXAS_INNER_INSURANCE_OP_RSP = 0x50101D;
+
+    TEXAS_INNER_ROOM_SET_REQ = 0x50101E; // 房间设置
+    TEXAS_INNER_ROOM_SET_RSP = 0x50101F;
+
+    TEXAS_INNER_BUY_THINK_TIME_REQ = 0x501020; // 购买思考时间
+    TEXAS_INNER_BUY_THINK_TIME_RSP = 0x501021;
+
+    TEXAS_INNER_AUTO_BUYIN_REQ = 0x501022; // 自动买入设置
+    TEXAS_INNER_AUTO_BUYIN_RSP = 0x501023;
+
+    TEXAS_INNER_GET_MILITARY_DIAGRAM_REQ = 0x501024; // 请求战绩折线图
+    TEXAS_INNER_GET_MILITARY_DIAGRAM_RSP = 0x501025;
+
+    TEXAS_INNER_EARLY_SETTLE_REQ = 0x501026; // 提前结算
+    TEXAS_INNER_EARLY_SETTLE_RSP = 0x501027;
+
+    TEXAS_INNER_ADD_TO_FAVORITE_REQ = 0x501028; // 添加收藏
+    TEXAS_INNER_ADD_TO_FAVORITE_RSP = 0x501029;
+
+    TEXAS_INNER_LEAVE_GAME_REQ = 0x50102A; // 离开游戏请求
+    TEXAS_INNER_LEAVE_GAME_RSP = 0x50102B;
+
+    TEXAS_INNER_PREOPERATION_REQ = 0x50102C; // 预操作
+    TEXAS_INNER_PREOPERATION_RSP = 0x50102D;
+
+    TEXAS_INNER_TICK_REQ = 0x50102E; // tick
+    TEXAS_INNER_TICK_RSP = 0x50102F; // tick
+
+    TEXAS_INNER_QUICK_START_RSP = 0x501030; // 快速开始
+    TEXAS_INNER_QUICK_START_REQ = 0x501031; // 快速开始
+
+    // -------- mysqlsvr(server_type = 4) --------
+    MYSQL_INNER_UPDATE_ROLE_INFO_REQ = 0x041000;
+    MYSQL_INNER_UPDATE_ROLE_INFO_RSP = 0x041001;
+
+    MYSQL_INNER_SEARCH_ROLE_REQ = 0x041002;
+    MYSQL_INNER_SEARCH_ROLE_RSP = 0x041003;
+
+    // 向数据库查询礼包码
+    MYSQL_INNER_SEARCH_GIFT_CODE_REQ = 0x041004;
+    MYSQL_INNER_SEARCH_GIFT_CODE_RSP = 0x041005;
+
+    // 更新数据库
+    MYSQL_INNER_UPDATE_REQ            = 0x041006;
+    MYSQL_INNER_UPDATE_RSP            = 0x041007;
+    MYSQL_INNER_QUERY_ROOM_INFO_REQ   = 0x041008;
+    MYSQL_INNER_QUERY_ROOM_INFO_RSP   = 0x041009;
+    MYSQL_INNER_QUERY_PLAYER_INFO_REQ = 0x04100A;
+    MYSQL_INNER_QUERY_PLAYER_INFO_RSP = 0x04100B;
+    MYSQL_INNER_QUERY_GAME_INFO_REQ   = 0x04100C;
+    MYSQL_INNER_QUERY_GAME_INFO_RSP   = 0x04100D;
+}
+
+//[ 结构名 = cmd Val] client映射结构名使用，需要跟上面的定义同步增加
+enum CmdTo {
+    _ZERO = 0;
+
+    BuyInDetailReq     = 0x020246; // 买入详情
+    BuyInDetailRsp     = 0x020247;
+    QueryRoomInfoReq   = 0x020248;
+    QueryRoomInfoRsp   = 0x020249;
+    QueryPlayerInfoReq = 0x02024A;
+    QueryPlayerInfoRsp = 0x02024B;
+    QueryGameInfoReq   = 0x02024C;
+    QueryGameInfoRsp   = 0x02024D;
+
+    // -------- ServerToClient --------
+
+    // 强制下线
+    ScKickOut = 0x003001;
+
+    // 同步玩家数据
+    ScSyncUserData = 0x003002;
+
+    // 聊天信息推送
+    ScChat = 0x003003;
+
+    // 通知客户端数据有变动
+    ScDataChangeNotify = 0x003004;
+
+    // 游戏内事件通知
+    GameUserEventNotify = 0x003005;
+
+    // -------- connsvr(server_type = 1) --------
+
+    ConnKickOutReq = 0x011000;
+    ConnKickOutRsp = 0x011001;
+
+    ConnBroadcastReq = 0x011002;
+    ConnBroadcastRsp = 0x011003;
+
+    // -------- mainsvr(server_type = 2) --------
+
+    // 登陆
+    LoginReq = 0x020000;
+    LoginRsp = 0x020001;
+
+    // 登出
+    LogoutReq = 0x020002;
+    LogoutRsp = 0x020003;
+
+    //心跳
+    HeartBeatReq = 0x020004;
+    HeartBeatRsp = 0x020005;
+
+    // 道具使用
+    ItemUseReq = 0x020006;
+    ItemUseRsp = 0x020007;
+
+    // 改名
+    ChangeNameReq = 0x020008;
+    ChangeNameRsp = 0x020009;
+
+    // 改头像
+    ChangeIconReq = 0x02000A;
+    ChangeIconRsp = 0x02000B;
+
+    // ~~~~~~~~~~~~引导功能~~~~~~~~~~~~~~~~~~
+    // 发送已经完成的ID
+    GuideCompletedReq = 0x0201B4;
+    GuideCompletedRsp = 0x0201B5;
+    // 发送正在进行的ID
+    GuideInProgressReq = 0x0201B6;
+    GuideInProgressRsp = 0x0201B7;
+
+    // ~~~~~~~~~~商城相关~~~~~~~~~~
+
+    // 购买礼包
+    MallBuyPackageReq = 0x0201B0;
+    MallBuyPackageRsp = 0x0201B1;
+
+    // 充值
+    MallRechargeReq = 0x0201B2;
+    MallRechargeRsp = 0x0201B3;
+
+    // ~~~~~~~~~~主线任务相关~~~~~~~~~~
+    // 完成主线任务
+    MainTaskFinishReq = 0x0201D0;
+    MainTaskFinishRsp = 0x0201D1;
+    //-----------------游戏相关-----------------
+
+    // ------------------- 基础操作 -------------------
+    RoomListReq = 0x020200; // [客户端]请求房间列表
+    RoomListRsp = 0x020201; // [推送]房间列表数据
+
+    DoBetReq = 0x020202; // [客户端]下注操作
+    DoBetRsp = 0x020203; // [推送]下注结果广播
+
+    FoldReq = 0x020204; // [客户端]弃牌操作
+    FoldRsp = 0x020205; // [推送]弃牌状态同步
+
+    GetLookersReq = 0x020206; // [客户端]请求围观列表
+    GetLookersRsp = 0x020207; // [推送]围观玩家头像数据
+
+    SitDownReq = 0x020208; // [客户端]坐下请求
+    SitDownRsp = 0x020209; // [推送]座位状态更新
+
+    StandUpReq = 0x02020A; // [客户端]站起请求
+    StandUpRsp = 0x02020B; // [推送]站起结果通知
+
+    LeaveGameReq = 0x02020C; // [客户端]离开游戏请求
+    LeaveGameRsp = 0x02020D; // [推送]离开确认
+
+    MilitarySuccessReq = 0x02020E; // [客户端]请求战绩
+    MilitarySuccessRsp = 0x02020F; // [推送]战绩数据
+
+    GetGameLogReq = 0x020210; // [客户端]请求牌谱
+    GetGameLogRsp = 0x020211; // [推送]牌谱记录
+
+    GetTimeLeftReq = 0x020212; // [客户端]查询剩余时间
+    GetTimeLeftRsp = 0x020213; // [推送]时间状态更新
+
+    VoiceCallReq = 0x020214; // [客户端]语音呼叫
+    VoiceCallRsp = 0x020215; // [推送]语音状态
+
+    BuyThinkTimeReq = 0x020216; // [客户端]购买思考时间
+    BuyThinkTimeRsp = 0x020217; // [推送]资源变更通知
+
+    AutoBuyinReq = 0x020218; // [客户端]自动买入设置
+    AutoBuyinRsp = 0x020219; // [推送]设置生效通知
+
+    InteractionReq = 0x02021A; // [客户端]互动请求
+    InteractionRsp = 0x02021B; // [推送]互动动作广播
+
+    EmoticonReq = 0x02021C; // [客户端]表情发送请求
+    EmoticonRsp = 0x02021D; // [推送]表情动作广播
+
+    BuyInReq = 0x02021E; // [客户端]买入请求
+    BuyInRsp = 0x02021F; // [推送]买入结果通知
+
+    GetMilitaryDiagramReq = 0x020220; // [客户端]请求战绩折线图
+    GetMilitaryDiagramRsp = 0x020221; // [推送]战绩折线图数据
+
+    ShowCardReq = 0x020222; // [客户端]翻牌展示请求
+    ShowCardRsp = 0x020223; // [推送]牌面状态广播
+
+    GetRoleInfoReq = 0x020224; // [客户端]请求玩家详细信息
+    GetRoleInfoRsp = 0x020225; // [推送]玩家详细信息响应
+
+    MarkPlayerReq = 0x020226; // [客户端]标记玩家请求
+    MarkPlayerRsp = 0x020227; // [推送]标记状态同步
+
+    InsuranceBuyReq = 0x020228; // [客户端]购买保险请求
+    InsuranceBuyRsp = 0x020229; // [推送]保险结果通知
+
+    RoomSetReq = 0x02022A; // [客户端]房间设置修改
+    RoomSetRsp = 0x02022B; // [推送]设置生效通知
+
+    SngGetBlindLevelReq = 0x02022C; // [客户端]请求盲注等级
+    SngGetBlindLevelRsp = 0x02022D; // [推送]盲注等级数据
+
+    GetRoomInfoReq = 0x02022E; // [客户端]请求房间详情
+    GetRoomInfoRsp = 0x02022F; // [推送]房间详情响应
+
+    InsuranceThinkTimeReq = 0x020230; // [客户端]保险思考时间查询
+    InsuranceThinkTimeRsp = 0x020231; // [推送]保险倒计时推送
+
+    InsuranceOpReq = 0x020232; // [客户端]保险操作请求
+    InsuranceOpRsp = 0x020233; // [推送]保险操作结果广播
+
+    GetGameInfoReq = 0x020234; // [客户端]弱网时获取牌局信息
+    GetGameInfoRsp = 0x020235; // [推送]完整牌局状态推送
+
+    AddToFavoriteReq = 0x020236; // [客户端]添加收藏请求
+    AddToFavoriteRsp = 0x020237; // [推送]收藏列表更新
+
+    ChangeSkinReq = 0x020238; // [客户端]更换皮肤请求
+    ChangeSkinRsp = 0x020239; // [推送]皮肤切换广播
+
+    PreoperationReq = 0x02023A; // [客户端]预操作指令提交
+    PreoperationRsp = 0x02023B; // [推送]预操作状态确认
+
+    RabbitHuntingReq = 0x02023C; // [客户端]特殊活动请求
+    RabbitHuntingRsp = 0x02023D; // [推送]活动数据响应
+
+    EarlySettleReq = 0x02023E; // [客户端]提前结算请求
+    EarlySettleRsp = 0x02023F; // [推送]结算结果推送
+
+    CreateRoomReq = 0x020240; //创建房间
+    CreateRoomRsp = 0x020241;
+
+    JoinRoomReq = 0x020242; //加入房间
+    JoinRoomRsp = 0x020243;
+
+    QuickStartReq = 0x020244; //快速开始
+    QuickStartRsp = 0x020245;
+
+    // -------- MailSvr (server_type = 6) --------
+
+    // 获取邮件
+    GetMailListReq = 0x060000;
+    GetMailListRsp = 0x060001;
+
+    // 阅读邮件
+    ReadMailReq = 0x060002;
+    ReadMailRsp = 0x060003;
+
+    // 删除邮件
+    DelMailReq = 0x060004;
+    DelMailRsp = 0x060005;
+
+    // 领取附件
+    GetMailAttachReq = 0x060006;
+    GetMailAttachRsp = 0x060007;
+
+    // -------- chatsvr(server_type = 7) --------
+
+    // 发送聊天
+    ChatChatReq = 0x070000;
+    ChatChatRsp = 0x070001;
+
+    // 获取聊天信息
+    ChatGetChatInfoReq = 0x070002;
+    ChatGetChatInfoRsp = 0x070003;
+
+    // 删除好友聊天数据
+    ChatDelChatReq = 0x070004;
+    ChatDelChatRsp = 0x070005;
+
+    // -------- friendsvr(server_type = 8) --------
+
+    // 获取社交信息
+    FriendGetFriendInfoReq = 0x080000;
+    FriendGetFriendInfoRsp = 0x080001;
+
+    // 添加好友
+    FriendAddFriendReq = 0x080002;
+    FriendAddFriendRsp = 0x080003;
+
+    // 确认添加好友
+    FriendConfirmFriendReq = 0x080004;
+    FriendConfirmFriendRsp = 0x080005;
+
+    // 屏蔽玩家
+    FriendShieldUserReq = 0x080006;
+    FriendShieldUserRsp = 0x080007;
+
+    // 搜索玩家
+    FriendSearchRoleReq = 0x080008;
+    FriendSearchRoleRsp = 0x080009;
+}

@@ -1,0 +1,152 @@
+
+/*
+* 本代码由xlsx工具生成，请勿手动修改
+*/
+
+syntax = "proto3";
+
+package g1.protocol;
+
+option go_package = "./g1_protocol";
+
+import "enum_config.proto";
+import "struct_config.proto";
+
+message DropItemConfing {
+    int32  DropItemId  = 1; // 掉落物品Id
+    int32  DropId      = 2; // 掉落Id
+    int32  ItemId      = 3; // 物品Id
+    string ItemName    = 4; // 物品名
+    int64  Count       = 5; // 数量
+    int32  DropWay     = 6; // 掉落方式
+    int32  Probability = 7; // 掉落概率
+    int32  IsRare      = 8; // 是否罕见
+    int32  IsShow      = 9; // 是否展示
+}
+
+message DropItemConfingAry {
+    repeated DropItemConfing Ary = 1;
+}
+
+message ItemConfig {
+    int32  ItemId        = 1;  // 物品Id
+    string Name          = 2;  // 物品名
+    int32  Type          = 3;  // 大类
+    int32  MainType      = 4;  // 主类型
+    int32  SubType       = 5;  // 子类型
+    string Description   = 6;  // 描述
+    int32  Quality       = 7;  // 品质
+    string Icon          = 8;  // 图标
+    int32  BagType       = 9;  // 背包页签
+    int32  NeedLevel     = 10; // 所需等级
+    string GetWayDes     = 11; // 获取途径_描述
+    string GetWayJump    = 12; // 获取途径_跳转
+    string EffectiveTime = 13; // 生效时间
+    string InvalidTime   = 14; // 失效时间
+    int32  Combine       = 15; // 是否合成
+    int32  Sale          = 16; // 出售
+}
+
+message ItemConfigAry {
+    repeated ItemConfig Ary = 1;
+}
+
+message MachineConfig {
+    int32 GameId          = 1; // 游戏id
+    int64 StartDuration   = 2; // 开始时长(秒)
+    int64 PreFlopDuration = 3; // 翻牌前时长
+    int64 FlopDuration    = 4; // 翻牌下注轮时长
+    int64 TurnDuration    = 5; // 转牌下注轮时长
+    int64 RiverDuration   = 6; // 河牌下注轮时长
+    int64 EndDuration     = 7; // 结算时长
+    int64 DefaultDuration = 8; // 默认时长
+}
+
+message MachineConfigAry {
+    repeated MachineConfig Ary = 1;
+}
+
+message MallConfig {
+    int32  Id            = 1;  // id
+    int32  Type          = 2;  // 商品类型
+    string Name          = 3;  // 礼包名称
+    int32  PackageID     = 4;  // 礼包ID
+    int32  CostItemID    = 5;  // 购买货币ID
+    int32  CostItemCnt   = 6;  // 购买货币数量
+    string BeginTime     = 7;  // 限时开始时间
+    string EndTime       = 8;  // 限时结束时间
+    int32  BuyLimit      = 9;  // 限购次数
+    int32  DailyBuyLimit = 10; // 每日限购次数
+    int32  Lable         = 11; // 标签
+    int32  Rmb           = 12; // 对应充值表ID
+}
+
+message MallConfigAry {
+    repeated MallConfig Ary = 1;
+}
+
+message RechargeConfig {
+    int32  Id               = 1; // id
+    string Name             = 2; // 礼包名称
+    string AndroidProductID = 3; // Android平台商品ID
+    string IosProductID     = 4; // IOS平台商品ID
+    int32  ProductID        = 5; // 获得道具ID
+    int32  ProductCnt       = 6; // 获得道具数量
+    int32  IsFirstDouble    = 7; // 首冲是否双倍
+    string Icon             = 8; // 图标
+    int32  Limit            = 9; // 限制
+}
+
+message RechargeConfigAry {
+    repeated RechargeConfig Ary = 1;
+}
+
+message TaskConfig {
+    uint32          TaskID    = 1; // 唯一ID
+    TaskType        TaskType  = 2; // 任务类型
+    string          TaskTitle = 3; // 任务标题
+    repeated Reward Reward    = 4; // 任务奖励
+}
+
+message TaskConfigAry {
+    repeated TaskConfig Ary = 1;
+}
+
+message TexasConfig {
+    int32          RoomStage      = 1;  // 房间类型
+    int32          CoinType       = 2;  // 货币类型
+    int64          RoomKeepLive   = 3;  // 房间存在时长(分钟)
+    int64          SmallBlind     = 4;  // 小盲注
+    int64          BigBlind       = 5;  // 大盲注
+    int32          MinBuyIn       = 6;  // 最小买入筹码
+    int32          MaxBuyIn       = 7;  // 最大买入筹码
+    int64          RakeRate       = 8;  // 每局抽水万分比
+    uint32         MaxPlayerCount = 9;  // 最大玩家人数
+    repeated int64 RakeUpLimit    = 10; // 每局多少人的抽水上限，2人，3人等抽水
+    uint32         MaxRoomCount   = 11; // 最大房间人数
+    bool           IsNoFlopNoDrop = 12; // 是否开启
+    bool           IsTest         = 13; // 是否为测试
+}
+
+message TexasConfigAry {
+    repeated TexasConfig Ary = 1;
+}
+
+message TexasTestConfig {
+    uint32          Round   = 1;  // 第几轮牌局
+    repeated string Publics = 2;  // 公共牌
+    string          Chair1  = 3;  // 玩家手牌
+    string          Chair2  = 4;  // 玩家手牌
+    string          Chair3  = 5;  // 玩家手牌
+    string          Chair4  = 6;  // 玩家手牌
+    string          Chair5  = 7;  // 玩家手牌
+    string          Chair6  = 8;  // 玩家手牌
+    string          Chair7  = 9;  // 玩家手牌
+    string          Chair8  = 10; // 玩家手牌
+    string          Chair9  = 11; // 玩家手牌
+    string          Chair10 = 12; // 玩家手牌
+}
+
+message TexasTestConfigAry {
+    repeated TexasTestConfig Ary = 1;
+}

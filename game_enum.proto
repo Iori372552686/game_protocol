@@ -1,0 +1,223 @@
+syntax = "proto3";
+
+package g1.protocol;
+option  go_package = "./g1_protocol";
+
+/*
+德州扑克比牌规则
+1、同花顺：五张同色且连续的牌，A,K,Q,J,10是最大的同花顺，也叫做皇家同花顺。
+2、四条：四张相同点数不同花色的牌，加上随意的一张其他牌。
+3、三带二：三张相同点数不同花色的牌，加上两张相同点数不同花色的牌。
+4、同花：五张同色但不连续的牌。
+5、顺子：五张不同花色但连续的牌。
+6、三条：三张相同点数不同花色的牌，加上两张不同点数的牌。
+7、两队：两对牌，加一张任意牌。
+8、对子：一对牌，加三张任意牌。
+9、其他：不是上述任何一种情况。
+*/
+
+/*
+德州扑克游戏规则：顺时针
+1、下注阶段：小盲注（金额大小已经规定），大盲注（金额必须为小盲注的两倍）。
+2、手牌（底牌）：在开始发底牌之前，需要一次烧牌，然后顺序给玩家发送手牌，分两轮发送完成。
+3、第一个投注：大盲注右边第一个开始发话（跟注、加注，弃牌），下一个发话如果跟注，必须和上一家数目一致。
+4、翻牌：第一轮下注结束之后，先烧掉一张牌，然后荷官发三张公共牌，最后进入第二轮下注阶段。
+5、第二轮投注：
+6、转牌：先烧掉一张牌，然后发放第四张公共牌
+7、第三轮投注：
+8、河牌：先烧掉一张牌，然后发放第五张公共牌
+9、第四轮投注：
+10、摊牌：
+*/
+
+enum CardType {
+    CARD_TYPE_NONE  = 0;    // 无效牌型
+    HIGH_CARD       = 1;    // 高牌
+    ONE_PAIR        = 2;    // 一对
+    TWO_PAIR        = 3;    // 两对
+    THREE_OF_A_KIND = 4;    // 三条
+    STRAIGHT        = 5;    // 顺子
+    FLUSH           = 6;    // 同花
+    FULL_HOUSE      = 7;    // 葫芦
+    FOUR_OF_A_KIND  = 8;    // 四条
+    STRAIGHT_FLUSH  = 9;    // 同花顺
+    ROYAL_FLUSH     = 10;   // 皇家同花顺
+    STRAIGHT_MASK   = 0x1F; // 顺子掩码
+}
+
+// 花色定义
+enum Color {
+    COLOR_NONE    = 0x00; // 无花色
+    COLOR_DIAMOND = 0x01; // 1
+    COLOR_CLUB    = 0x02; // 2
+    COLOR_HEART   = 0x04; // 4
+    COLOR_SPADE   = 0x08; // 8
+}
+
+// uint32( COLOR<<16 | RANK )
+
+// 点数
+enum Rank {
+    Rank_0  = 0; // 无点数
+    RANK_1  = 1; // A座位1的时候
+    RANK_2  = 2;
+    RANK_3  = 3;
+    RANK_4  = 4;
+    RANK_5  = 5;
+    RANK_6  = 6;
+    RANK_7  = 7;
+    RANK_8  = 8;
+    RANK_9  = 9;
+    RANK_10 = 10;
+    RANK_J  = 11;
+    RANK_Q  = 12;
+    RANK_K  = 13;
+    RANK_A  = 14;
+}
+
+enum GameState {
+    STATE_INIT        = 0; // 初始化状态
+    STATE_START       = 1; // 游戏开始阶段（包含底注和发底牌）
+    STATE_PRE_FLOP    = 2; // 底牌前下注轮（Pre-Flop）
+    STATE_FLOP_ROUND  = 3; // 翻牌圈（三张公共牌）
+    STATE_TURN_ROUND  = 4; // 转牌圈（第四张公共牌）
+    STATE_RIVER_ROUND = 5; // 河牌圈（第五张公共牌）
+    STATE_END         = 6; // 结算阶段
+}
+
+enum GameCompetitionType {
+    NORMAL = 0; // 默认值，非赛事玩法
+    SNG    = 1; // sng赛事
+    MTT    = 2; // mtt赛事
+}
+
+enum GameTypeId {
+    //texas
+    TEXAS_MODE_START = 0; // texas玩法开始
+    TEXAS_NORMAL     = 1; // 德州常规玩法
+    TEXAS_SHORT      = 2; // 德州短牌玩法
+    TEXAS_AOF        = 3; // 德州AOF玩法
+    TEXAS_PLO        = 4; // 德州omaha 4张
+    TEXAS_PLO5       = 5; // 德州omaha 5张
+    TEXAS_PLO6       = 6; // 德州omaha 6张
+    TEXAS_MODE_END   = 7; // texas玩法结束
+
+    //rummy
+    RUMMY_MODE_START = 20; // RUMMY玩法开始
+    RUMMY_NORMAL     = 21; // RUMMY常规玩法
+}
+
+enum CoinType {
+    COIN_NONE  = 0; // 无效币种
+    COIN_GOLD  = 1; // 金币
+    COIN_ACE   = 2; // Ace coin
+    COIN_SCORE = 3; // 积分
+}
+
+enum RoomStage {
+    Free   = 0; // 免费模式，体验模式
+    LOW    = 1; // 初级
+    MIDDLE = 2; // 中级
+    HIGH   = 3; // 高级
+
+    Stage_ALL = 99; // 全部类型
+}
+
+enum RoomState {
+    WAITSTART = 0; // 等待开始
+    PLAYING   = 1; // 比赛中
+    END       = 2; // 已结束
+    PAUSE     = 3; //房间状态暂停
+}
+
+// betting round enum
+enum BettingRound {
+    NULL    = 0; // 默认值，表示未定义或无效的下注轮次
+    ANTE    = 1; // 底注轮次，玩家在游戏开始前下底注
+    PREFLOP = 2; // 翻牌前轮次，玩家在发出公共牌前下注
+    FLOP    = 3; // 翻牌轮次，发出前三张公共牌后的下注轮次
+    TURN    = 4; // 转牌轮次，发出第四张公共牌后的下注轮次
+    RIVER   = 5; // 河牌轮次，发出第五张公共牌后的下注轮次
+}
+
+enum RoomSortType {
+    SORT_TYPE_NONE   = 0; // 默认值
+    SORT_TYPE_ID     = 1; // ID排序
+    SORT_TYPE_PLAYER = 2; // 玩家人数排序
+    SORT_TYPE_TIME   = 3; // 时间排序
+}
+
+//游戏状态操作type
+enum OperateType {
+    OPERATE_NONE    = 0; // 无效操作
+    BET             = 1; // 下注
+    CALL            = 2; // 跟注
+    RAISE           = 3; // 加注
+    CHECK           = 4; // 看牌
+    FOLD            = 5; // 弃牌
+    ALL_IN          = 6; // 全下
+    BET_BIG_BLIND   = 7; // 下大盲
+    BET_SMALL_BLIND = 8; // 下小盲
+    BET_ANTE        = 9; // 下前注
+}
+
+//游戏事件类型
+enum GameNotifyType {
+    EVENT_NONE            = 0;  // 缺省通知
+    EVENT_BET             = 1;  // 下注
+    EVENT_CALL            = 2;  // 跟注
+    EVENT_RAISE           = 3;  // 加注
+    EVENT_CHECK           = 4;  // 看牌
+    EVENT_FOLD            = 5;  // 弃牌
+    EVENT_BET_BIG_BLIND   = 6;  // 下大盲
+    EVENT_BET_SMALL_BLIND = 7;  // 下小盲
+    EVENT_BET_PRE_FOLP    = 8;  // 翻牌下前注
+    EVENT_DEAL            = 9;  // 发牌
+    EVENT_SIT_DOWN        = 10; // 坐下
+    EVENT_STAND_UP        = 11; // 站起
+    EVENT_LEAVE           = 12; // 离开
+    EVENT_READY           = 13; // 准备
+    EVENT_CANCEL_READY    = 14; // 取消准备
+    EVENT_GAME_START      = 15; // 游戏开始
+    EVENT_GAME_END        = 16; // 游戏结束
+    EVENT_GAME_PAUSE      = 17; // 游戏暂停
+    EVENT_GAME_RESUME     = 18; // 游戏恢复
+    EVENT_GAME_RESET      = 19; // 游戏重置
+    EVENT_BLIND           = 20; // 涨盲
+    //EVENT_BET_FOLP        = 21; // 转牌后前注
+    //EVENT_BET_TURN        = 22; // 转牌后前注
+    //EVENT_BET_RIVER       = 23; // 河牌后前注
+    EVENT_FLOP_CARD = 24; // 翻牌，翻转牌，翻和牌
+}
+
+/*
+正在游戏中：
+    玩家可以设置退出牌桌转台，一定不能设置 加入房间、加入牌桌、结算完成
+不在游戏中:
+    玩家可以的操作：加入牌桌、退出牌桌、结算完成
+*/
+// 玩家状态(正在游戏中的玩家可以预操作：退出牌桌)
+enum PlayerState {
+    PLAYER_STATE_NONE = 0;
+    JOIN_ROOM         = 1; // 加入房间
+    JOIN_TABLE        = 2; // 加入牌桌
+    QUIT_TABLE        = 3; // 退出牌桌(不在加入下一轮游戏)
+    QUIT_ROOM         = 4; // 结算完成
+}
+
+// 发牌类型
+enum DealType {
+    DEAL_NONE  = 0; // 无效发牌
+    DEAL_HAND  = 1; // 发手牌
+    DEAL_FLOP  = 2; // 发翻牌
+    DEAL_TURN  = 3; // 发转牌
+    DEAL_RIVER = 4; // 发河牌
+}
+
+// 数据类型
+enum DataType {
+    DATA_TYPE_NONE              = 0; // 无效数据
+    DATA_TYPE_TEXAS_GAME_RECORD = 1; // 德州扑克游戏记录
+    DATA_TYPE_PLAYER_INFO       = 2; // 玩家游戏信息
+    DATA_TYPE_TEXAS_ROOM_INFO   = 3; // 德州扑克房间信息
+}

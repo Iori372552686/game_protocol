@@ -1,0 +1,27 @@
+
+/*
+* 本代码由xlsx工具生成，请勿手动修改
+*/
+
+syntax = "proto3";
+
+package g1.protocol;
+
+option go_package = "./g1_protocol";
+
+enum PropertyType {
+    PropertyType_Empty   = 0; // 道具类型-空
+    PropertyType_Coin    = 1; // 道具类型-金币
+    PropertyType_Diamond = 2; // 道具类型-钻石
+}
+
+enum QualityType {
+    QualityType_None  = 0; // 品质类型-空
+    QualityType_White = 1; // 品质类型-白
+    QualityType_Blue  = 2; // 品质类型-蓝
+}
+
+enum TaskType {
+    TaskType_NONE = 0; // 任务类型-空
+    TaskType_MAIN = 1; // 任务类型-主线
+}

@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+package g1.protocol;
+option  go_package = "./g1_protocol";
+
+import "game_enum.proto";
+
+// 角色信息
+message MysqlRoleInfo {
+    uint64 uid  = 1; // @inject_tag: xorm:"bigint pk comment('玩家uid')"
+    string name = 2; // @inject_tag: xorm:"varchar(25) index comment('玩家uid')"
+}
+
+// 房间数据
+message MysqlTexasRoomInfo {
+    uint64     id                  = 1;  // @inject_tag: xorm:"bigint autoincr pk"
+    uint64     room_id             = 2;  // @inject_tag: xorm:"bigint index notnull comment('房间id')"
+    string     room_name           = 3;  // @inject_tag: xorm:"varchar(64) comment('房间名称')"
+    GameTypeId game_type           = 4;  // @inject_tag: xorm:"int index notnull comment('房间模式')"
+    RoomStage  room_stage          = 5;  // @inject_tag: xorm:"int index notnull comment('房间阶段')"
+    string     blind               = 6;  // @inject_tag: xorm:"varchar(30) index notnull comment('小/大盲注')"
+    int64      create_time         = 7;  // @inject_tag: xorm:"bigint index notnull comment('创建房间时间')"
+    int64      finish_time         = 8;  // @inject_tag: xorm:"bigint index comment('房间结束时间')"
+    uint64     table_id            = 9;  // @inject_tag: xorm:"bigint index comment('牌局id')"
+    uint32     total_round         = 10; // @inject_tag: xorm:"bigint comment('游戏局数')"
+    int64      total_buyin_chips   = 11; // @inject_tag: xorm:"bigint comment('总带入筹码')"
+    uint32     total_join_count    = 12; // @inject_tag: xorm:"int comment('总参与人数')"
+    int64      total_service_chips = 13; // @inject_tag: xorm:"bigint comment('总服务费')"
+    int64      total_runing_water  = 14; // @inject_tag: xorm:"bigint comment('总流水')"
+    int64      update_time         = 15; // @inject_tag: xorm:"bigint comment('更新时间')"
+}
+
+// 玩家游戏数据
+message MysqlTexasPlayerInfo {
+    uint64     id            = 1;  // @inject_tag: xorm:"bigint autoincr pk"
+    uint64     uid           = 2;  // @inject_tag: xorm:"bigint index comment('玩家uid')"
+    uint64     table_id      = 3;  // @inject_tag: xorm:"bigint index comment('牌桌id')"
+    uint32     round         = 4;  // @inject_tag: xorm:"int index comment('第几轮')"
+    uint32     total_players = 5;  // @inject_tag: xorm:"int comment('总玩家数')"
+    GameTypeId game_type     = 6;  // @inject_tag: xorm:"int index comment('房间模式')"
+    uint64     room_id       = 7;  // @inject_tag: xorm:"bigint index comment('房间id')"
+    string     room_name     = 8;  // @inject_tag: xorm:"varchar(64) comment('房间名称')"
+    RoomStage  room_stage    = 9;  // @inject_tag: xorm:"int index comment('房间阶段')"
+    int64      begin_time    = 10; // @inject_tag: xorm:"bigint index comment('开始时间')"
+    int64      end_time      = 11; // @inject_tag: xorm:"bigint index comment('结束时间')"
+    int64      chips         = 12; // @inject_tag: xorm:"bigint comment('当前筹码')"
+    int64      service_chips = 13; // @inject_tag: xorm:"bigint comment('服务费')"
+    int64      win_chips     = 14; // @inject_tag: xorm:"bigint comment('输赢')"
+    int64      update_time   = 15; // @inject_tag: xorm:"bigint comment('更新时间')"
+}
+
+// 游戏牌桌数据
+message MysqlTexasGameInfo {
+    string     game_id       = 2;  // @inject_tag: xorm:"varchar(125) pk comment('游戏id')"
+    uint64     table_id      = 3;  // @inject_tag: xorm:"bigint index comment('牌局id')"
+    uint32     round         = 4;  // @inject_tag: xorm:"int comment('当前回合')"
+    GameTypeId game_type     = 5;  // @inject_tag: xorm:"int index comment('房间模式')"
+    uint64     room_id       = 6;  // @inject_tag: xorm:"bigint index comment('房间id')"
+    string     room_name     = 7;  // @inject_tag: xorm:"varchar(64) comment('房间名称')"
+    RoomStage  room_stage    = 8;  // @inject_tag: xorm:"int index comment('房间阶段')"
+    string     blind         = 9;  // @inject_tag: xorm:"varchar(30) index comment('小/大盲注')"
+    int64      begin_time    = 10; // @inject_tag: xorm:"bigint index comment('创建房间时间')"
+    int64      end_time      = 11; // @inject_tag: xorm:"bigint index comment('房间结束时间')"
+    int64      total_pot     = 12; // @inject_tag: xorm:"bigint comment('底池')"
+    int64      total_service = 13; // @inject_tag: xorm:"bigint comment('玩家服务费')"
+    bytes      game_detail   = 14; // @inject_tag: xorm:"blob comment('游戏记录详情')"
+    int64      update_time   = 15; // @inject_tag: xorm:"bigint comment('更新时间')"
+}
+
+// 游戏房间回合
+message TexasGameRecord {
+    uint64                table_id      = 1;  // 牌局id(唯一)
+    GameTypeId            game_type     = 2;  // 游戏类型
+    RoomStage             room_stage    = 3;  // 房间阶段
+    string                blind         = 4;  // 小/大盲注
+    int64                 begin_time    = 5;  // 开始时间
+    int64                 end_time      = 6;  // 结束时间
+    int64                 total_pot     = 7;  // 底池
+    int64                 total_service = 8;  // 玩家服务费
+    uint32                round         = 9;  // 当前回合
+    TexasGameRecordDetail detail        = 10; // 游戏详细数据
+}
+
+message TexasGameRecordDetail {
+    repeated TexasGamePokerDealRecord deal_list    = 1; // 发牌记录
+    repeated TexasGamePlayerRecord    player_list  = 2; // 玩家列表
+    repeated TexasGameOperateRecord   operate_list = 3; // 玩家操作记录
+}
+
+message TexasGamePokerDealRecord {
+    DealType deal_type = 1;
+    uint64   uid       = 2;
+    uint32   card      = 3;
+    uint32   cursor    = 4;
+}
+
+message TexasGamePlayerRecord {
+    uint64          uid            = 1;
+    uint32          chair_id       = 2; // 玩家座位号
+    int64           chips          = 3; // 玩家筹码
+    int64           win_chips      = 4; // 玩家赢得筹码
+    CardType        card_type      = 5; // 玩家牌型
+    repeated uint32 hand_card_list = 6; // 玩家手牌
+    repeated uint32 best_card_list = 7; // 玩家最大牌
+}
+
+message TexasGameOperateRecord {
+    GameState   game_state = 1; // 游戏状态
+    uint64      uid        = 2; // 玩家id
+    OperateType operate    = 3; // 玩家操作
+    int64       bet_chips  = 4; // 玩家下注筹码
+}

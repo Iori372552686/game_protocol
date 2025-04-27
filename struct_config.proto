@@ -1,0 +1,19 @@
+
+/*
+* 本代码由xlsx工具生成，请勿手动修改
+*/
+
+syntax = "proto3";
+
+package g1.protocol;
+
+option go_package = "./g1_protocol";
+
+import "enum_config.proto";
+
+message Reward {
+    PropertyType PropType = 1; // 道具类型
+    QualityType  Quality  = 2; // 品质
+    uint32       Star     = 3; // 星级
+    int64        Add      = 4; // 道具数量
+}

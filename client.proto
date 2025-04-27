@@ -1,0 +1,784 @@
+syntax = "proto3";
+
+package g1.protocol;
+option  go_package = "./g1_protocol";
+
+import "common.proto";
+import "role.proto";
+import "infosvr.proto";
+import "mailsvr.proto";
+import "chatsvr.proto";
+import "friendsvr.proto";
+import "room.proto";
+import "game_enum.proto";
+import "struct.proto";
+import "database.proto";
+
+// SC_KICK_OUT
+message ScKickOut {
+    EKickOutReason reason = 1;
+}
+
+// SC_SYNC_USER_DATA
+message ScSyncUserData {
+    RoleInfo role_info = 1;
+}
+
+// SC_CHAT
+message ScChat {
+    PbChatMsg msg = 1;
+}
+
+// SC_DATA_CHANGE_NOTIFY
+message ScDataChangeNotify {
+    int32 cmd = 1;
+    //    bool friend = 1;     // 好友系统更新
+    //    bool mail = 2;   // 邮件系统更新
+}
+
+// SC_GAME_EVENT_NOTIFY
+message GameUserEventNotify {
+    GameNotifyType Event   = 1;
+    bytes          Content = 2;
+}
+
+// MAIN_LOGIN_REQ
+message LoginReq {
+    string account    = 1;
+    string token      = 2;
+    uint32 channel_id = 3; //不同渠道包，channel id不同
+    string login_type = 4; //登录类型 , 字符串表示： 游客登录 邮箱登录 第三方渠道名
+    string device_os  = 5;
+}
+
+message LoginRsp {
+    Ret      ret         = 1;
+    int64    time_now_ms = 2;
+    RoleInfo role_info   = 3;
+}
+
+// MAIN_LOGOUT_REQ
+message LogoutReq {
+    bool   by_server = 1;
+    string reason    = 2;
+}
+
+message LogoutRsp {
+    Ret ret = 1;
+}
+
+// MAIN_HEARTBEAT_REQ
+message HeartBeatReq {
+    int64 client_now_ms = 2;
+}
+
+message HeartBeatRsp {
+    Ret   ret                  = 1;
+    int64 client_now_ms_in_req = 2;
+    int64 server_now_ms        = 3;
+}
+
+// MAIN_ITEM_USE_REQ
+message ItemUseReq {
+    repeated PbItem item_list = 1;
+}
+
+message ItemUseRsp {
+    Ret             ret                = 1;
+    repeated PbItem real_add_item_list = 2; // 实际加到玩家身上的东西，比如说开宝箱后的东西
+}
+
+// MAIN_CHANGE_NAME_REQ
+message ChangeNameReq {
+    string name = 1;
+}
+
+message ChangeNameRsp {
+    Ret ret = 1;
+}
+
+// MAIN_CHANGE_ICON_REQ
+message ChangeIconReq {
+    int32 icon_id  = 1; // 头像
+    int32 frame_id = 2; // 相框
+    int32 image_id = 3; // 立绘
+}
+
+message ChangeIconRsp {
+    Ret ret = 1;
+}
+
+// INFO_GET_BRIEF_INFO_REQ
+message InfoGetBriefInfoReq {
+    repeated uint64 uid_list = 1;
+}
+
+message InfoGetBriefInfoRsp {
+    Ret                      ret       = 1;
+    repeated PbRoleBriefInfo info_list = 2;
+}
+
+// INFO_GET_ICON_DESC_REQ
+message InfoGetIconDescReq {
+    repeated uint64 uid_list = 1;
+}
+
+message InfoGetIconDescRsp {
+    Ret                 ret       = 1;
+    repeated PbIconDesc icon_list = 2;
+}
+
+// GUIDE_COMPLETED_REQ
+message GuideCompletedReq {
+    int32 id = 1; //发送已经完成引导ID
+}
+
+message GuideCompletedRsp {
+    Ret ret = 1;
+}
+
+// GUIDE_IN_PROGRESS_REQ
+message GuideInProgressReq {
+    int32 id = 1; // 发送正在进行的引导ID
+}
+
+message GuideInProgressRsp {
+    Ret ret = 1;
+}
+
+// EXCHANGE_GIFT_BAG_REQ
+message ExchangeGiftBagReq {
+    string code = 1;
+}
+
+message ExchangeGiftBagRsp {
+    Ret             ret       = 1;
+    repeated PbItem item_list = 2;
+}
+
+// MAIL_GET_MAIL_LIST_REQ
+message GetMailListReq {}
+
+message GetMailListRsp {
+    Ret      ret       = 1;
+    MailInfo mail_info = 2;
+}
+
+// MAIL_READ_MAIL_REQ
+message ReadMailReq {
+    repeated int32 id_list = 1;
+}
+
+message ReadMailRsp {
+    Ret            ret     = 1;
+    repeated int32 id_list = 2;
+}
+
+// MAIL_DEL_MAIL_REQ
+message DelMailReq {
+    repeated int32 id_list = 1;
+}
+
+message DelMailRsp {
+    Ret            ret     = 1;
+    repeated int32 id_list = 2;
+}
+
+// MAIL_GET_MAIL_ATTACH_REQ
+message GetMailAttachReq {
+    repeated int32 id_list = 1;
+}
+
+message GetMailAttachRsp {
+    Ret             ret       = 1;
+    repeated int32  id_list   = 2;
+    repeated PbItem item_list = 3;
+}
+
+// CHAT_CHAT_REQ
+message ChatChatReq {
+    PbChatMsg msg = 1;
+}
+
+message ChatChatRsp {
+    Ret ret = 1;
+}
+
+// CHAT_GET_CHAT_INFO_REQ
+message ChatGetChatInfoReq {}
+
+message ChatGetChatInfoRsp {
+    Ret        ret       = 1;
+    PbChatInfo chat_info = 2;
+}
+
+// CHAT_DEL_CHAT_REQ
+message ChatDelChatReq {
+    uint64 friend_uid = 1;
+}
+
+message ChatDelChatRsp {
+    Ret ret = 1;
+}
+
+// FRIEND_GET_FRIEND_INFO_REQ
+message FriendGetFriendInfoReq {}
+
+message FriendGetFriendInfoRsp {
+    Ret            ret         = 1;
+    RoleFriendInfo friend_info = 2;
+}
+
+// FRIEND_ADD_FRIEND_REQ
+message FriendAddFriendReq {
+    uint64 friend_uid    = 1;
+    bool   is_del_friend = 2;
+}
+
+message FriendAddFriendRsp {
+    Ret    ret           = 1;
+    uint64 friend_uid    = 2;
+    bool   is_del_friend = 3;
+}
+
+// FRIEND_CONFIRM_FRIEND_REQ
+message FriendConfirmFriendReq {
+    uint64 friend_uid     = 1;
+    bool   is_reject      = 2;
+    bool   all_invitation = 3; // 是否针对所有请求
+}
+
+message FriendConfirmFriendRsp {
+    Ret    ret            = 1;
+    uint64 friend_uid     = 2;
+    bool   is_reject      = 3;
+    bool   all_invitation = 4; // 是否针对所有请求
+}
+
+// FRIEND_SHIELD_USER_REQ
+message FriendShieldUserReq {
+    uint64 shield_uid       = 1;
+    bool   is_cancel_shield = 2;
+}
+
+message FriendShieldUserRsp {
+    Ret    ret              = 1;
+    uint64 shield_uid       = 2;
+    bool   is_cancel_shield = 3;
+}
+
+// FRIEND_SEARCH_ROLE_REQ
+message FriendSearchRoleReq {
+    string search_string = 1;
+}
+
+message FriendSearchRoleRsp {
+    Ret                 ret       = 1;
+    repeated PbIconDesc role_list = 2;
+}
+
+// -------------------- game room req rsp stu-------------------------
+
+// MAIN_GAME_ROOM_LIST_REQ ,ROOM_CENTER_INNER_ROOM_LIST_REQ
+message RoomListReq {
+    GameTypeId      game_id    = 1; // 游戏id
+    RoomStage       stage      = 2; // 房间等级规格
+    repeated uint32 room_ids   = 3; // 查询指定房间ids，预留
+    uint32          page_size  = 4; // 显示数量
+    uint32          page_index = 5; // 第几页
+    RoomSortType    sort_type  = 6; // 排序类型
+    CoinType        coin_type  = 7; // 币种类型
+}
+
+message RoomListRsp {
+    Ret                   ret         = 1;
+    GameTypeId            game_id     = 2; // 游戏id
+    RoomStage             stage       = 3; // 房间等级规格
+    uint32                page_size   = 4; // 显示数量
+    uint32                page_index  = 5; // 第几页
+    repeated RoomShowInfo room_list   = 6; // 房间信息
+    uint32                total_count = 7; // 总房间数
+    CoinType              coin_type   = 8; // 币种类型
+}
+
+// MAIN_GAME_DO_BET_REQ ,TEXAS_INNER_DO_BET_REQ
+message DoBetReq {
+    uint64      chip         = 1; // 0为 check看牌
+    uint32      chair_id     = 2;
+    uint64      room_id      = 3;
+    OperateType operate_type = 4; // 操作类型 enum OperateType
+}
+
+message DoBetRsp {
+    Ret         ret       = 1;
+    uint32      round_id  = 2;
+    uint32      chair_id  = 3; // 操作者椅子 id
+    OperateType op_type   = 4; // 操作类型 enum OperateType
+    uint64      chip      = 5; // 下注金额
+    uint64      bank_roll = 6; // 当前剩余金额
+    uint64      total_bet = 7; // 此局游戏总下注
+    uint64      room_id   = 8;
+}
+
+// MAIN_GAME_FOLD_REQ
+message FoldReq {
+    uint64 room_id  = 1;
+    uint32 chair_id = 2; // 操作者椅子 id
+}
+
+message FoldRsp {
+    Ret    ret      = 1;
+    uint32 chair_id = 2;
+    uint64 room_id  = 3;
+}
+
+// MAIN_GAME_GET_LOOKERS_REQ
+message GetLookersReq {
+    uint64 room_id = 1;
+}
+
+message GetLookersRsp {
+    Ret                 ret     = 1;
+    uint64              room_id = 2;
+    repeated PbIconDesc lookers = 3;
+}
+
+// MAIN_GAME_SIT_DOWN_REQ
+message SitDownReq {
+    uint64     room_id     = 1;
+    uint32     chair_id    = 2;
+    uint32     buyin_chips = 3;
+    PbIconDesc role_icon   = 4; //Inner server use
+}
+
+message SitDownRsp {
+    Ret    ret      = 1;
+    uint32 chair_id = 2;
+    uint64 room_id  = 3;
+    // SeatStatus seat_status = 2;
+}
+
+// MAIN_GAME_STAND_UP_REQ
+message StandUpReq {
+    uint64 room_id  = 1;
+    uint32 chair_id = 2;
+}
+
+message StandUpRsp {
+    Ret    ret      = 1;
+    uint32 chair_id = 2;
+    uint64 room_id  = 3;
+}
+
+// MAIN_GAME_LEAVE_GAME_REQ
+message LeaveGameReq {
+    uint64 room_id = 1;
+}
+
+message LeaveGameRsp {
+    Ret    ret     = 1;
+    uint64 room_id = 2;
+}
+
+// MAIN_GAME_MILITARY_SUCCESS_REQ
+message MilitarySuccessReq {
+    uint64 room_id = 1;
+}
+
+message MilitarySuccessRsp {
+    Ret ret = 1;
+    // repeated MilitaryRecord records = 2;
+}
+
+// MAIN_GAME_GET_GAME_LOG_REQ
+message GetGameLogReq {
+    uint64 room_id = 1;
+}
+
+message GetGameLogRsp {
+    Ret ret = 1;
+    // GameLogDetail log = 2;
+}
+
+// MAIN_GAME_GET_TIME_LEFT_REQ
+message GetTimeLeftReq {
+    uint64 room_id = 1;
+}
+
+message GetTimeLeftRsp {
+    Ret   ret     = 1;
+    int32 seconds = 2;
+}
+
+// MAIN_GAME_VOICE_CALL_REQ
+message VoiceCallReq {
+    uint64 room_id = 1;
+}
+
+message VoiceCallRsp {
+    Ret    ret         = 1;
+    uint64 from_player = 2;
+}
+
+// MAIN_GAME_BUY_THINK_TIME_REQ
+message BuyThinkTimeReq {
+    int32 buy_times = 1;
+}
+
+message BuyThinkTimeRsp {
+    Ret   ret            = 1;
+    int32 remain_seconds = 2;
+}
+
+// MAIN_GAME_AUTO_BUYIN_REQ
+message AutoBuyinReq {
+    bool  enable        = 1;
+    int32 trigger_chips = 2;
+}
+
+message AutoBuyinRsp {
+    Ret ret = 1;
+    // AutoBuyinConfig config = 2;
+}
+
+// MAIN_GAME_INTERACTION_REQ
+message InteractionReq {
+    // InteractionType type = 1;
+    uint64 target_player = 2;
+}
+
+message InteractionRsp {
+    Ret ret = 1;
+    // InteractionAction action = 2;
+}
+
+// MAIN_GAME_EMOTICON_REQ
+message EmoticonReq {
+    int32 emoticon_id = 1;
+}
+
+message EmoticonRsp {
+    Ret    ret         = 1;
+    uint64 from_player = 2;
+    int32  emoticon_id = 3;
+}
+
+// MAIN_GAME_BUY_IN_REQ ,TEXAS_INNER_BUY_IN_REQ
+message BuyInReq {
+    uint64   room_id   = 1;
+    int64    chip      = 2;
+    CoinType coin_type = 3; // 币种类型
+}
+
+message BuyInRsp {
+    Ret      ret       = 1;
+    uint64   room_id   = 2;
+    int64    chip      = 3;
+    CoinType coin_type = 4; // 币种类型
+}
+
+message MainBuyInDetailReq {
+    int32    room_stage = 1; // 房间等级
+    CoinType coin_type  = 2; // 币种类型
+}
+
+message MainBuyInDetailRsp {
+    Ret   ret        = 1;
+    int64 SmallBlind = 2; // 小盲注
+    int64 BigBlind   = 3; // 大盲注
+    int32 min_buyin  = 4; // 最小买入
+    int32 max_buyin  = 5; // 最大买入
+}
+
+// MAIN_GAME_GET_MILITARY_DIAGRAM_REQ
+message GetMilitaryDiagramReq {
+    int32 range_type = 1;
+}
+
+message GetMilitaryDiagramRsp {
+    Ret ret = 1;
+    // MilitaryDiagram diagram = 2;
+}
+
+// MAIN_GAME_SHOW_CARD_REQ
+message ShowCardReq {
+    repeated int32 card_ids = 1;
+}
+
+message ShowCardRsp {
+    Ret ret = 1;
+    // CardShowInfo card_info = 2;
+}
+
+// MAIN_GAME_GET_ROLE_INFO_REQ
+message GetPlayerInfoReq {
+    uint64 player_id = 1;
+}
+
+message GetPlayerInfoRsp {
+    Ret ret = 1;
+    // PlayerDetail detail = 2;
+}
+
+// MAIN_GAME_MARK_PLAYER_REQ
+message MarkPlayerReq {
+    uint64 player_id = 1;
+    string mark_tag  = 2;
+}
+
+message MarkPlayerRsp {
+    Ret ret = 1;
+    // PlayerMarkInfo mark_info = 2;
+}
+
+// MAIN_GAME_INSURANCE_BUY_REQ
+message InsuranceBuyReq {
+    int32 insurance_type = 1;
+    int32 amount         = 2;
+}
+
+message InsuranceBuyRsp {
+    Ret ret = 1;
+    // InsuranceResult result = 2;
+}
+
+// MAIN_GAME_ROOM_SET_REQ
+message RoomSetReq {
+    map<string, string> settings = 1;
+}
+
+message RoomSetRsp {
+    Ret ret = 1;
+    // RoomSettings new_settings = 2;
+}
+
+// MAIN_GAME_SNG_GET_BLIND_LEVEL_REQ
+message SngGetBlindLevelReq {}
+
+message SngGetBlindLevelRsp {
+    Ret ret = 1;
+    // repeated BlindLevel levels = 2;
+}
+
+// MAIN_GAME_GET_ROOM_INFO_REQ
+message GetRoomInfoReq {
+    uint64 room_id = 1;
+}
+
+message GetRoomInfoRsp {
+    Ret                     ret        = 1;
+    RoomBaseInfo            base       = 2;
+    TableTexasGameData      table_info = 3;
+    PlayerTexasGameCardData hand_info  = 4; // 玩家手牌信息
+}
+
+// MAIN_GAME_INSURANCE_THINK_TIME_REQ
+message InsuranceThinkTimeReq {}
+
+message InsuranceThinkTimeRsp {
+    Ret   ret            = 1;
+    int32 remain_seconds = 2;
+}
+
+// MAIN_GAME_INSURANCE_OP_REQ
+message InsuranceOpReq {
+    // InsuranceOperation op = 1;
+}
+
+message InsuranceOpRsp {
+    Ret ret = 1;
+    // InsuranceStatus status = 2;
+}
+
+// MAIN_GAME_GET_GAME_INFO_REQ
+message GetGameInfoReq {
+    uint64 room_id = 1;
+}
+
+message GetGameInfoRsp {
+    Ret                     ret        = 1;
+    uint64                  room_id    = 2;
+    TableTexasGameData      table_info = 3; // 游戏牌座数据
+    PlayerTexasGameCardData hand_info  = 4; // 玩家手牌信息
+}
+
+// MAIN_GAME_ADD_TO_FAVORITE_REQ
+message AddToFavoriteReq {
+    uint64 target_id = 1;
+}
+
+message AddToFavoriteRsp {
+    Ret             ret       = 1;
+    repeated uint64 favorites = 2;
+}
+
+// MAIN_GAME_CHANGE_SKIN_REQ
+message ChangeSkinReq {
+    string skin_id = 1;
+}
+
+message ChangeSkinRsp {
+    Ret ret = 1;
+    // SkinInfo skin = 2;
+}
+
+// MAIN_GAME_PREOPERATION_REQ
+message PreOperationReq {
+    OperateType operate_type = 1;
+    uint64      room_id      = 2;
+    uint32      chair_id     = 3;
+    int64       chip         = 4; // 筹码
+}
+
+message PreOperationRsp {
+    Ret ret = 1;
+}
+
+// MAIN_GAME_RABBIT_HUNTING_REQ
+message RabbitHuntingReq {
+    int32 activity_id = 1;
+}
+
+message RabbitHuntingRsp {
+    Ret ret = 1;
+    // ActivityData data = 2;
+}
+
+// MAIN_GAME_EARLY_SETTLE_REQ
+message EarlySettleReq {}
+
+message EarlySettleRsp {
+    Ret ret = 1;
+    // SettlementResult result = 2;
+}
+
+//创建房间 MAIN_GAME_CREATE_ROOM_REQ
+message CreateRoomReq {
+    GameTypeId game_id     = 1;  // 游戏id
+    string     name        = 2;  // 房间名字
+    bool       is_private  = 3;  // 是否私人局(1==私人局，0==公共局)
+    string     blind       = 4;  // 小/大盲注 例如: 1/2 小盲1 大盲2 SNG表示报名费 1000/100 报名费/服务费
+    uint32     ante        = 5;  // 前注,为0 或没有该字段表示没有前注
+    int64      game_time   = 6;  // 总时间单位秒, /SNG表示涨盲时间
+    uint32     chair_num   = 7;  // 普通场椅子数 //SNG表示必须坐满开局的人数,MTT最大报名人数
+    bool       is_auth     = 8;  // 是否授权带入,sng授权报名
+    RoomStage  stage       = 9;  // stage
+    uint32     start_bb    = 10; // 起始筹码
+    int64      start_time  = 11; // 开启时间
+    CoinType   coin_type   = 12; // 币种类型
+    bool       is_rebuy    = 13; // MTT 是否rebuy
+    bool       is_addon    = 14; // MTT 是否 Addon
+    uint32     club_id     = 15; // 俱乐部id,非俱乐部成员不允许加入
+    bool       is_insure   = 16; // 是否开启保险
+    int32      straddle    = 17; // 是否Straddle
+    bool       ip_limit    = 18; // 是否ip限制
+    uint32     alliance_id = 19; // 联盟id
+    bool       gps_limit   = 20; // Gps 限制
+    uint64     room_id     = 21; // 房间id,server inner use
+}
+
+message CreateRoomRsp {
+    Ret          ret       = 1;
+    RoomBaseInfo room_info = 2;
+}
+
+//进入房间 MAIN_GAME_JOIN_ROOM_REQ
+message JoinRoomReq {
+    uint64 room_id    = 1;
+    uint32 conn_busId = 2; //ser inner
+}
+
+message JoinRoomRsp {
+    Ret                     ret        = 1;
+    RoomBaseInfo            room_info  = 2;
+    TableTexasGameData      table_info = 3; // PrivateData一定为空
+    map<uint64, PbIconDesc> role_info  = 4; // 玩家头像信息
+    PlayerTexasGameCardData hand_info  = 5; // 玩家手牌信息
+    int64                   duration   = 6; // 时间戳
+}
+
+//快速开始 MAIN_GAME_QUICK_START_REQ
+message QuickStartReq {
+    GameTypeId game_id     = 1;  // 游戏id
+    CoinType   coin_type   = 2;  // 币种类型
+    RoomStage  stage       = 3;  // stage
+    uint32     conn_bus_id = 10; // ser inner
+}
+
+message QuickStartRsp {
+    Ret                     ret        = 1;
+    RoomBaseInfo            room_info  = 2;
+    TableTexasGameData      table_info = 3; // PrivateData一定为空
+    map<uint64, PbIconDesc> role_info  = 4; // 玩家头像信息
+    PlayerTexasGameCardData hand_info  = 5; // 玩家手牌信息
+}
+
+// MAIN_MALL_BUY_PACKAGE_REQ
+message MallBuyPackageReq {
+    int32 conf_id = 1;
+}
+
+message MallBuyPackageRsp {
+    Ret ret = 1;
+}
+
+// MAIN_MALL_RECHARGE_REQ
+message MallRechargeReq {
+    int32 conf_id = 1;
+    int32 channel = 2;
+}
+
+message MallRechargeRsp {
+    Ret ret = 1;
+}
+
+// 更新数据库 MYSQL_INNER_UPDATE_REQ = 0x041006; MYSQL_INNER_UPDATE_RSP = 0x041007;
+message MysqlInnerUpdateReq {
+    uint64   id        = 1; // id
+    DataType data_type = 2; // 数据类型
+    bytes    data      = 3; // 数据
+}
+
+message MysqlInnerUpdateRsp {
+    Ret ret = 1;
+}
+
+message QueryRoomInfoReq {
+    uint64     room_id    = 1; // 房间id
+    uint64     table_id   = 2; // 牌局id
+    GameTypeId game_type  = 3; // 游戏类型
+    RoomStage  room_stage = 4; // 房间阶段
+    string     blind      = 5; // 小/大盲注
+    int64      begin_time = 6; // 开始时间
+    int64      end_time   = 7; // 结束时间
+}
+
+message QueryRoomInfoRsp {
+    Ret                         ret  = 1;
+    repeated MysqlTexasRoomInfo list = 2; // 房间列表
+}
+
+message QueryPlayerInfoReq {
+    uint64     uid        = 1; // 玩家uid
+    uint64     table_id   = 2; // 牌局id
+    uint64     room_id    = 3; // 房间id
+    GameTypeId game_type  = 4; // 游戏类型
+    RoomStage  room_stage = 5; // 房间阶段
+    string     blind      = 6; // 小/大盲注
+    int64      begin_time = 7; // 开始时间
+    int64      end_time   = 8; // 结束时间
+}
+
+message QueryPlayerInfoRsp {
+    Ret                           ret  = 1;
+    repeated MysqlTexasPlayerInfo list = 2; // 玩家列表
+}
+
+message QueryGameInfoReq {
+    string game_id = 1;
+}
+
+message QueryGameInfoRsp {
+    Ret             ret  = 1;
+    TexasGameRecord data = 2;
+}
