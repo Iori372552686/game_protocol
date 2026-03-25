@@ -42,6 +42,7 @@ service WebApiService {
     option (goone.options.v1.ssrpc) = {
       http_path: "/v1/web/msg-sec-check"
       http_method: "POST"
+      sign: true
       comment: "msg security check"
     };
   }

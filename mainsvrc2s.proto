@@ -15,6 +15,7 @@ service MainC2SService {
   rpc Login(g1.protocol.LoginReq) returns (g1.protocol.LoginRsp) {
     option (goone.options.v1.ssrpc) = {
       cmd_name: "CMD_MAIN_LOGIN_REQ"
+      ws: true
       comment: "mainsvr login"
     };
   }
