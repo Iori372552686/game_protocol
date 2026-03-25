@@ -1,0 +1,53 @@
+syntax = "proto3";
+
+package game.roomcenter.v1;
+
+import "goone/options/v1/options.proto";
+import "client.proto";
+import "room.proto";
+import "struct.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/Iori372552686/GoOne/api/gen/game/roomcenter/v1;roomcenterv1";
+
+// RoomCenterInnerService defines internal (s2s) commands for roomcentersvr.
+// Source-of-truth lives in game_protocol; GoOne generates wrappers into api/gen.
+service RoomCenterInnerService {
+  rpc Tick(g1.protocol.InnerTickReq) returns (google.protobuf.Empty) {
+    option (goone.options.v1.ssrpc) = {
+      cmd: 0x0B1008
+      one_way: true
+      comment: "roomcentersvr tick (one-way)"
+    };
+  }
+
+  rpc RoomList(g1.protocol.RoomListReq) returns (g1.protocol.RoomListRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_ROOM_CENTER_INNER_ROOM_LIST_REQ"
+      comment: "room list"
+    };
+  }
+
+  rpc QuickStart(g1.protocol.QuickStartReq) returns (g1.protocol.QuickStartRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_ROOM_CENTER_INNER_QUICK_START_REQ"
+      comment: "quick start"
+    };
+  }
+
+  rpc UpdateRoomInfo(g1.protocol.RoomShowInfo) returns (google.protobuf.Empty) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_ROOM_CENTER_INNER_UPDATE_ROOM_INFO_REQ"
+      one_way: true
+      comment: "update room info (one-way)"
+    };
+  }
+
+  rpc DelRoomInfo(g1.protocol.RoomShowInfo) returns (google.protobuf.Empty) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_ROOM_CENTER_INNER_DEL_ROOM_INFO_REQ"
+      one_way: true
+      comment: "delete room info (one-way)"
+    };
+  }
+}

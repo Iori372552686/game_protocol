@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 package g1.cmd;
-option  go_package = "./g1_protocol";
+option go_package = "github.com/Iori372552686/game_protocol/protocol;g1_protocol";
 
 // cmd = 0xXXYZZZ
 // 其中XX为server_type, Y为cmd类型,0为客户端请求,1为内部请求,3为服务器向客户端的推送,A为GM指令

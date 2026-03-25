@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package game.infosvr.v1;
+
+import "goone/options/v1/options.proto";
+import "client.proto";
+import "infosvr.proto";
+
+option go_package = "github.com/Iori372552686/GoOne/api/gen/game/infosvr/v1;infosvrv1";
+
+// InfoService exposes infosvr internal commands via SSPacket.
+// Source-of-truth lives in game_protocol; GoOne generates wrappers into api/gen.
+service InfoService {
+  rpc GetBriefInfo(g1.protocol.InfoGetBriefInfoReq) returns (g1.protocol.InfoGetBriefInfoRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_INFO_GET_BRIEF_INFO_REQ"
+      comment: "info get brief info"
+    };
+  }
+
+  rpc GetIconDesc(g1.protocol.InfoGetIconDescReq) returns (g1.protocol.InfoGetIconDescRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_INFO_GET_ICON_DESC_REQ"
+      comment: "info get icon desc"
+    };
+  }
+
+  rpc SetBriefInfo(g1.protocol.InfoSetBriefInfoReq) returns (g1.protocol.InfoSetBriefInfoRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_INFO_INNER_SET_BRIEF_INFO_REQ"
+      one_way: true
+      comment: "info set brief info"
+    };
+  }
+}

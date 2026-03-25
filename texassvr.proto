@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package g1.protocol;
+
+import "room.proto";
+
+option go_package = "github.com/Iori372552686/game_protocol/protocol;g1_protocol";
+
+// TEXAS_INNER_CREATEROOM_REQ
+message InnerCreateRoomReq {
+  RoomBaseInfo base = 1;
+}
