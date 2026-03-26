@@ -17,7 +17,7 @@ if errorlevel 1 goto :end
 go build -o "%protoc_go_inject_tag%" github.com/favadi/protoc-go-inject-tag
 if errorlevel 1 goto :end
 
-for /f "usebackq delims=" %%f in (`powershell -NoProfile -Command "Get-ChildItem -Path . -Filter *.proto | Where-Object { -not ((Get-Content $_.FullName -Raw) -match 'github.com/Iori372552686/GoOne/api/gen/') } | Sort-Object Name | ForEach-Object { $_.Name }"`) do (
+for /f "usebackq delims=" %%f in (`powershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0list_proto_inputs.ps1"`) do (
     set proto_args=!proto_args! "%%f"
 )
 

@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package game.connsvr.v1;
+
+import "goone/options/v1/options.proto";
+import "proto/service/mainsvr.proto";
+
+option go_package = "github.com/Iori372552686/GoOne/api/gen/game/connsvr/v1;connsvrv1";
+
+// ConnService exposes connsvr internal commands via SSPacket.
+service ConnService {
+  rpc KickOut(g1.protocol.ConnKickOutReq) returns (g1.protocol.ConnKickOutRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_CONN_KICK_OUT_REQ"
+      one_way: true
+      comment: "kick websocket session by remote addr"
+    };
+  }
+
+  rpc Broadcast(g1.protocol.ConnBroadcastReq) returns (g1.protocol.ConnBroadcastRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_CONN_BROADCAST_REQ"
+      comment: "broadcast CSPacket payload to websocket zone"
+    };
+  }
+}

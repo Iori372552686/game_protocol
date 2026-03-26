@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+package game.mysqlsvr.v1;
+
+import "goone/options/v1/options.proto";
+import "proto/service/mysqlsvr.proto";
+import "proto/core/client.proto";
+import "google/protobuf/empty.proto";
+
+option go_package = "github.com/Iori372552686/GoOne/api/gen/game/mysqlsvr/v1;mysqlsvrv1";
+
+// MysqlService exposes mysqlsvr internal commands via SSPacket.
+// Source-of-truth lives in game_protocol; GoOne generates wrappers into api/gen.
+service MysqlService {
+  rpc UpdateRoleInfo(g1.protocol.MysqlInnerUpdateRoleInfoReq) returns (g1.protocol.MysqlInnerUpdateRoleInfoRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_MYSQL_INNER_UPDATE_ROLE_INFO_REQ"
+      comment: "mysql update role info"
+    };
+  }
+
+  rpc SearchRole(g1.protocol.MysqlInnerSearchRoleReq) returns (g1.protocol.MysqlInnerSearchRoleRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_MYSQL_INNER_SEARCH_ROLE_REQ"
+      comment: "mysql search role"
+    };
+  }
+
+  rpc Update(g1.protocol.MysqlInnerUpdateReq) returns (google.protobuf.Empty) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_MYSQL_INNER_UPDATE_REQ"
+      one_way: true
+      comment: "mysql async update"
+    };
+  }
+
+  rpc QueryRoomInfo(g1.protocol.QueryRoomInfoReq) returns (g1.protocol.QueryRoomInfoRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_MYSQL_INNER_QUERY_ROOM_INFO_REQ"
+      comment: "mysql query room info"
+    };
+  }
+
+  rpc QueryPlayerInfo(g1.protocol.QueryPlayerInfoReq) returns (g1.protocol.QueryPlayerInfoRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_MYSQL_INNER_QUERY_PLAYER_INFO_REQ"
+      comment: "mysql query player info"
+    };
+  }
+
+  rpc QueryGameInfo(g1.protocol.QueryGameInfoReq) returns (g1.protocol.QueryGameInfoRsp) {
+    option (goone.options.v1.ssrpc) = {
+      cmd_name: "CMD_MYSQL_INNER_QUERY_GAME_INFO_REQ"
+      comment: "mysql query game info"
+    };
+  }
+}
