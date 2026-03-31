@@ -125,9 +125,64 @@ message ScKickOut {
     EKickOutReason reason = 1;
 }
 
+// connsvr internal ssrpc (e.g. mainsvr -> connsvr); not pushed as SC_KICK_OUT.
+message ConnKickOutReq {
+    EKickOutReason reason      = 1;
+    string         remote_addr = 2;
+}
+
+message ConnKickOutRsp {
+    Ret ret = 1;
+}
+
+message ConnBroadcastReq {
+    uint32 cmd  = 1;
+    bytes  body = 2;
+}
+
+message ConnBroadcastRsp {}
+
 // SC_SYNC_USER_DATA
 message ScSyncUserData {
     RoleInfo role_info = 1;
+}
+
+// Patch payloads for SC_SYNC_USER_DATA_V2 (inventory / mall / icon / activity task).
+message RoleInventoryPatch {
+    repeated PbItem upsert_items     = 1;
+    repeated int32  delete_item_ids    = 2;
+}
+
+message RoleMallPatch {
+    repeated PbMallItem upsert_items = 1;
+    repeated int32      delete_conf_ids = 2;
+}
+
+message RoleIconPatch {
+    bool              has_current_icon_url = 1;
+    string            current_icon_url    = 2;
+    bool              has_current_frame_id  = 3;
+    int32             current_frame_id    = 4;
+    repeated PbIcon   upsert_icons          = 5;
+    repeated int32    delete_icon_ids       = 6;
+    repeated PbFrame  upsert_frames         = 7;
+    repeated int32    delete_frame_ids      = 8;
+}
+
+message RoleActvityTaskPatch {
+    repeated PbTask upsert_tasks    = 1;
+    repeated int32  delete_task_ids = 2;
+}
+
+// SC_SYNC_USER_DATA_V2: full_section_mask 携带完整 RoleInfo 子集；patch_* 为对应板块的增量。
+message ScSyncUserDataV2 {
+    int32                  full_section_mask  = 1;
+    int32                  patch_section_mask = 2;
+    RoleInfo               role_info          = 3;
+    RoleInventoryPatch     inventory_patch    = 4;
+    RoleMallPatch          mall_patch         = 5;
+    RoleIconPatch          icon_patch         = 6;
+    RoleActvityTaskPatch   actvity_task_patch = 7;
 }
 
 // SC_CHAT

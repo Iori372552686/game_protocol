@@ -29,6 +29,9 @@ enum CMD {
     // 游戏内事件通知
     SC_GAME_EVENT_NOTIFY = 0x003005;
 
+    // 同步玩家数据（全量 section + 增量 patch，与 SC_SYNC_USER_DATA 并存）
+    SC_SYNC_USER_DATA_V2 = 0x003006;
+
     // -------- connsvr(server_type = 1) --------
 
     CONN_KICK_OUT_REQ = 0x011000;
@@ -427,6 +430,8 @@ enum CmdTo {
 
     // 同步玩家数据
     ScSyncUserData = 0x003002;
+
+    ScSyncUserDataV2 = 0x003006;
 
     // 聊天信息推送
     ScChat = 0x003003;

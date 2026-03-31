@@ -3,7 +3,7 @@ syntax = "proto3";
 package game.connsvr.v1;
 
 import "goone/options/v1/options.proto";
-import "proto/service/mainsvr.proto";
+import "proto/core/client.proto";
 
 option go_package = "github.com/Iori372552686/GoOne/api/gen/game/connsvr/v1;connsvrv1";
 
