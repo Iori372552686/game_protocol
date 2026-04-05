@@ -12,6 +12,10 @@ option go_package = "github.com/Iori372552686/GoOne/api/gen/game/mysqlsvr/v1;mys
 // MysqlService exposes mysqlsvr internal commands via SSPacket.
 // Source-of-truth lives in game_protocol; GoOne generates wrappers into api/gen.
 service MysqlService {
+  option (goone.options.v1.ssrpc_service) = {
+    timeout_ms: 5000
+  };
+
   rpc UpdateRoleInfo(g1.protocol.MysqlInnerUpdateRoleInfoReq) returns (g1.protocol.MysqlInnerUpdateRoleInfoRsp) {
     option (goone.options.v1.ssrpc) = {
       cmd_name: "CMD_MYSQL_INNER_UPDATE_ROLE_INFO_REQ"

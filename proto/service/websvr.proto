@@ -30,6 +30,10 @@ message MsgSecCheckRsp {
 // WebApiService exposes HTTP-friendly endpoints for web_svr.
 // Source-of-truth lives in game_protocol; GoOne generates wrappers into api/gen.
 service WebApiService {
+  option (goone.options.v1.ssrpc_service) = {
+    timeout_ms: 8000
+  };
+
   rpc Ping(PingReq) returns (PingRsp) {
     option (goone.options.v1.ssrpc) = {
       http_path: "/v1/web/ping"

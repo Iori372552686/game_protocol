@@ -9,6 +9,10 @@ option go_package = "github.com/Iori372552686/GoOne/api/gen/game/connsvr/v1;conn
 
 // ConnService exposes connsvr internal commands via SSPacket.
 service ConnService {
+  option (goone.options.v1.ssrpc_service) = {
+    timeout_ms: 5000
+  };
+
   rpc KickOut(g1.protocol.ConnKickOutReq) returns (g1.protocol.ConnKickOutRsp) {
     option (goone.options.v1.ssrpc) = {
       cmd_name: "CMD_CONN_KICK_OUT_REQ"

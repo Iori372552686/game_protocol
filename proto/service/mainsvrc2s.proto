@@ -11,6 +11,10 @@ option go_package = "github.com/Iori372552686/GoOne/api/gen/game/mainsvr/v1;main
 // MainC2SService exposes mainsvr client-facing commands via SSPacket.
 // Source-of-truth lives in game_protocol; GoOne generates wrappers into api/gen.
 service MainC2SService {
+  option (goone.options.v1.ssrpc_service) = {
+    timeout_ms: 5000
+  };
+
   rpc Login(g1.protocol.LoginReq) returns (g1.protocol.LoginRsp) {
     option (goone.options.v1.ssrpc) = {
       cmd_name: "CMD_MAIN_LOGIN_REQ"
