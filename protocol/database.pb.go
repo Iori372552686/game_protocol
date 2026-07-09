@@ -23,11 +23,11 @@ const (
 
 // 角色信息
 type MysqlRoleInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Uid           uint64                 `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty" xorm:"bigint pk comment('玩家uid')"`  // @inject_tag: xorm:"bigint pk comment('玩家uid')"
-	Name          string                 `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" xorm:"varchar(25) index comment('玩家uid')"` // @inject_tag: xorm:"varchar(25) index comment('玩家uid')"
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState  `protogen:"open.v1" xorm:"-"`
+	Uid           uint64                  `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty" xorm:"bigint pk comment('玩家uid')"`          // @inject_tag: xorm:"bigint pk comment('玩家uid')"
+	Name          string                  `protobuf:"bytes,2,opt,name=name,proto3" json:"name,omitempty" xorm:"varchar(25) index comment('玩家uid')"` // @inject_tag: xorm:"varchar(25) index comment('玩家uid')"
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *MysqlRoleInfo) Reset() {
@@ -76,24 +76,24 @@ func (x *MysqlRoleInfo) GetName() string {
 
 // 房间数据
 type MysqlTexasRoomInfo struct {
-	state             protoimpl.MessageState `protogen:"open.v1"`
-	Id                uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" xorm:"bigint autoincr pk"`                                                           // @inject_tag: xorm:"bigint autoincr pk"
-	RoomId            uint64                 `protobuf:"varint,2,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty" xorm:"bigint index notnull comment('房间id')"`                                     // @inject_tag: xorm:"bigint index notnull comment('房间id')"
-	RoomName          string                 `protobuf:"bytes,3,opt,name=room_name,json=roomName,proto3" json:"room_name,omitempty" xorm:"varchar(64) comment('房间名称')"`                                // @inject_tag: xorm:"varchar(64) comment('房间名称')"
-	GameType          GameTypeId             `protobuf:"varint,4,opt,name=game_type,json=gameType,proto3,enum=g1.protocol.GameTypeId" json:"game_type,omitempty" xorm:"int index notnull comment('房间模式')"`   // @inject_tag: xorm:"int index notnull comment('房间模式')"
-	RoomStage         RoomStage              `protobuf:"varint,5,opt,name=room_stage,json=roomStage,proto3,enum=g1.protocol.RoomStage" json:"room_stage,omitempty" xorm:"int index notnull comment('房间阶段')"` // @inject_tag: xorm:"int index notnull comment('房间阶段')"
-	Blind             string                 `protobuf:"bytes,6,opt,name=blind,proto3" json:"blind,omitempty" xorm:"varchar(30) index notnull comment('小/大盲注')"`                                                      // @inject_tag: xorm:"varchar(30) index notnull comment('小/大盲注')"
-	CreateTime        int64                  `protobuf:"varint,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty" xorm:"bigint index notnull comment('创建房间时间')"`                         // @inject_tag: xorm:"bigint index notnull comment('创建房间时间')"
-	FinishTime        int64                  `protobuf:"varint,8,opt,name=finish_time,json=finishTime,proto3" json:"finish_time,omitempty" xorm:"bigint index comment('房间结束时间')"`                         // @inject_tag: xorm:"bigint index comment('房间结束时间')"
-	TableId           uint64                 `protobuf:"varint,9,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty" xorm:"bigint index comment('牌局id')"`                                  // @inject_tag: xorm:"bigint index comment('牌局id')"
-	TotalRound        uint32                 `protobuf:"varint,10,opt,name=total_round,json=totalRound,proto3" json:"total_round,omitempty" xorm:"bigint comment('游戏局数')"`                        // @inject_tag: xorm:"bigint comment('游戏局数')"
-	TotalBuyinChips   int64                  `protobuf:"varint,11,opt,name=total_buyin_chips,json=totalBuyinChips,proto3" json:"total_buyin_chips,omitempty" xorm:"bigint comment('总带入筹码')"`       // @inject_tag: xorm:"bigint comment('总带入筹码')"
-	TotalJoinCount    uint32                 `protobuf:"varint,12,opt,name=total_join_count,json=totalJoinCount,proto3" json:"total_join_count,omitempty" xorm:"int comment('总参与人数')"`          // @inject_tag: xorm:"int comment('总参与人数')"
-	TotalServiceChips int64                  `protobuf:"varint,13,opt,name=total_service_chips,json=totalServiceChips,proto3" json:"total_service_chips,omitempty" xorm:"bigint comment('总服务费')"` // @inject_tag: xorm:"bigint comment('总服务费')"
-	TotalRuningWater  int64                  `protobuf:"varint,14,opt,name=total_runing_water,json=totalRuningWater,proto3" json:"total_runing_water,omitempty" xorm:"bigint comment('总流水')"`    // @inject_tag: xorm:"bigint comment('总流水')"
-	UpdateTime        int64                  `protobuf:"varint,15,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty" xorm:"bigint comment('更新时间')"`                        // @inject_tag: xorm:"bigint comment('更新时间')"
-	unknownFields     protoimpl.UnknownFields
-	sizeCache         protoimpl.SizeCache
+	state             protoimpl.MessageState  `protogen:"open.v1" xorm:"-"`
+	Id                uint64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" xorm:"bigint autoincr pk"`                                                                          // @inject_tag: xorm:"bigint autoincr pk"
+	RoomId            uint64                  `protobuf:"varint,2,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty" xorm:"bigint index notnull comment('房间id')"`                                  // @inject_tag: xorm:"bigint index notnull comment('房间id')"
+	RoomName          string                  `protobuf:"bytes,3,opt,name=room_name,json=roomName,proto3" json:"room_name,omitempty" xorm:"varchar(64) comment('房间名称')"`                                      // @inject_tag: xorm:"varchar(64) comment('房间名称')"
+	GameType          GameTypeId              `protobuf:"varint,4,opt,name=game_type,json=gameType,proto3,enum=g1.protocol.GameTypeId" json:"game_type,omitempty" xorm:"int index notnull comment('房间模式')"`   // @inject_tag: xorm:"int index notnull comment('房间模式')"
+	RoomStage         RoomStage               `protobuf:"varint,5,opt,name=room_stage,json=roomStage,proto3,enum=g1.protocol.RoomStage" json:"room_stage,omitempty" xorm:"int index notnull comment('房间阶段')"` // @inject_tag: xorm:"int index notnull comment('房间阶段')"
+	Blind             string                  `protobuf:"bytes,6,opt,name=blind,proto3" json:"blind,omitempty" xorm:"varchar(30) index notnull comment('小/大盲注')"`                                             // @inject_tag: xorm:"varchar(30) index notnull comment('小/大盲注')"
+	CreateTime        int64                   `protobuf:"varint,7,opt,name=create_time,json=createTime,proto3" json:"create_time,omitempty" xorm:"bigint index notnull comment('创建房间时间')"`                    // @inject_tag: xorm:"bigint index notnull comment('创建房间时间')"
+	FinishTime        int64                   `protobuf:"varint,8,opt,name=finish_time,json=finishTime,proto3" json:"finish_time,omitempty" xorm:"bigint index comment('房间结束时间')"`                            // @inject_tag: xorm:"bigint index comment('房间结束时间')"
+	TableId           uint64                  `protobuf:"varint,9,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty" xorm:"bigint index comment('牌局id')"`                                       // @inject_tag: xorm:"bigint index comment('牌局id')"
+	TotalRound        uint32                  `protobuf:"varint,10,opt,name=total_round,json=totalRound,proto3" json:"total_round,omitempty" xorm:"bigint comment('游戏局数')"`                                   // @inject_tag: xorm:"bigint comment('游戏局数')"
+	TotalBuyinChips   int64                   `protobuf:"varint,11,opt,name=total_buyin_chips,json=totalBuyinChips,proto3" json:"total_buyin_chips,omitempty" xorm:"bigint comment('总带入筹码')"`                 // @inject_tag: xorm:"bigint comment('总带入筹码')"
+	TotalJoinCount    uint32                  `protobuf:"varint,12,opt,name=total_join_count,json=totalJoinCount,proto3" json:"total_join_count,omitempty" xorm:"int comment('总参与人数')"`                       // @inject_tag: xorm:"int comment('总参与人数')"
+	TotalServiceChips int64                   `protobuf:"varint,13,opt,name=total_service_chips,json=totalServiceChips,proto3" json:"total_service_chips,omitempty" xorm:"bigint comment('总服务费')"`            // @inject_tag: xorm:"bigint comment('总服务费')"
+	TotalRuningWater  int64                   `protobuf:"varint,14,opt,name=total_runing_water,json=totalRuningWater,proto3" json:"total_runing_water,omitempty" xorm:"bigint comment('总流水')"`                // @inject_tag: xorm:"bigint comment('总流水')"
+	UpdateTime        int64                   `protobuf:"varint,15,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty" xorm:"bigint comment('更新时间')"`                                   // @inject_tag: xorm:"bigint comment('更新时间')"
+	unknownFields     protoimpl.UnknownFields `xorm:"-"`
+	sizeCache         protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *MysqlTexasRoomInfo) Reset() {
@@ -233,24 +233,24 @@ func (x *MysqlTexasRoomInfo) GetUpdateTime() int64 {
 
 // 玩家游戏数据
 type MysqlTexasPlayerInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Id            uint64                 `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" xorm:"bigint autoincr pk"`                                                           // @inject_tag: xorm:"bigint autoincr pk"
-	Uid           uint64                 `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty" xorm:"bigint index comment('玩家uid')"`                                                         // @inject_tag: xorm:"bigint index comment('玩家uid')"
-	TableId       uint64                 `protobuf:"varint,3,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty" xorm:"bigint index comment('牌桌id')"`                                  // @inject_tag: xorm:"bigint index comment('牌桌id')"
-	Round         uint32                 `protobuf:"varint,4,opt,name=round,proto3" json:"round,omitempty" xorm:"int index comment('第几轮')"`                                                     // @inject_tag: xorm:"int index comment('第几轮')"
-	TotalPlayers  uint32                 `protobuf:"varint,5,opt,name=total_players,json=totalPlayers,proto3" json:"total_players,omitempty" xorm:"int comment('总玩家数')"`                   // @inject_tag: xorm:"int comment('总玩家数')"
-	GameType      GameTypeId             `protobuf:"varint,6,opt,name=game_type,json=gameType,proto3,enum=g1.protocol.GameTypeId" json:"game_type,omitempty" xorm:"int index comment('房间模式')"`   // @inject_tag: xorm:"int index comment('房间模式')"
-	RoomId        uint64                 `protobuf:"varint,7,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty" xorm:"bigint index comment('房间id')"`                                     // @inject_tag: xorm:"bigint index comment('房间id')"
-	RoomName      string                 `protobuf:"bytes,8,opt,name=room_name,json=roomName,proto3" json:"room_name,omitempty" xorm:"varchar(64) comment('房间名称')"`                                // @inject_tag: xorm:"varchar(64) comment('房间名称')"
-	RoomStage     RoomStage              `protobuf:"varint,9,opt,name=room_stage,json=roomStage,proto3,enum=g1.protocol.RoomStage" json:"room_stage,omitempty" xorm:"int index comment('房间阶段')"` // @inject_tag: xorm:"int index comment('房间阶段')"
-	BeginTime     int64                  `protobuf:"varint,10,opt,name=begin_time,json=beginTime,proto3" json:"begin_time,omitempty" xorm:"bigint index comment('开始时间')"`                           // @inject_tag: xorm:"bigint index comment('开始时间')"
-	EndTime       int64                  `protobuf:"varint,11,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty" xorm:"bigint index comment('结束时间')"`                                 // @inject_tag: xorm:"bigint index comment('结束时间')"
-	Chips         int64                  `protobuf:"varint,12,opt,name=chips,proto3" json:"chips,omitempty" xorm:"bigint comment('当前筹码')"`                                                    // @inject_tag: xorm:"bigint comment('当前筹码')"
-	ServiceChips  int64                  `protobuf:"varint,13,opt,name=service_chips,json=serviceChips,proto3" json:"service_chips,omitempty" xorm:"bigint comment('服务费')"`                  // @inject_tag: xorm:"bigint comment('服务费')"
-	WinChips      int64                  `protobuf:"varint,14,opt,name=win_chips,json=winChips,proto3" json:"win_chips,omitempty" xorm:"bigint comment('输赢')"`                              // @inject_tag: xorm:"bigint comment('输赢')"
-	UpdateTime    int64                  `protobuf:"varint,15,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty" xorm:"bigint comment('更新时间')"`                        // @inject_tag: xorm:"bigint comment('更新时间')"
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState  `protogen:"open.v1" xorm:"-"`
+	Id            uint64                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty" xorm:"bigint autoincr pk"`                                                                  // @inject_tag: xorm:"bigint autoincr pk"
+	Uid           uint64                  `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty" xorm:"bigint index comment('玩家uid')"`                                                     // @inject_tag: xorm:"bigint index comment('玩家uid')"
+	TableId       uint64                  `protobuf:"varint,3,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty" xorm:"bigint index comment('牌桌id')"`                               // @inject_tag: xorm:"bigint index comment('牌桌id')"
+	Round         uint32                  `protobuf:"varint,4,opt,name=round,proto3" json:"round,omitempty" xorm:"int index comment('第几轮')"`                                                      // @inject_tag: xorm:"int index comment('第几轮')"
+	TotalPlayers  uint32                  `protobuf:"varint,5,opt,name=total_players,json=totalPlayers,proto3" json:"total_players,omitempty" xorm:"int comment('总玩家数')"`                         // @inject_tag: xorm:"int comment('总玩家数')"
+	GameType      GameTypeId              `protobuf:"varint,6,opt,name=game_type,json=gameType,proto3,enum=g1.protocol.GameTypeId" json:"game_type,omitempty" xorm:"int index comment('房间模式')"`   // @inject_tag: xorm:"int index comment('房间模式')"
+	RoomId        uint64                  `protobuf:"varint,7,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty" xorm:"bigint index comment('房间id')"`                                  // @inject_tag: xorm:"bigint index comment('房间id')"
+	RoomName      string                  `protobuf:"bytes,8,opt,name=room_name,json=roomName,proto3" json:"room_name,omitempty" xorm:"varchar(64) comment('房间名称')"`                              // @inject_tag: xorm:"varchar(64) comment('房间名称')"
+	RoomStage     RoomStage               `protobuf:"varint,9,opt,name=room_stage,json=roomStage,proto3,enum=g1.protocol.RoomStage" json:"room_stage,omitempty" xorm:"int index comment('房间阶段')"` // @inject_tag: xorm:"int index comment('房间阶段')"
+	BeginTime     int64                   `protobuf:"varint,10,opt,name=begin_time,json=beginTime,proto3" json:"begin_time,omitempty" xorm:"bigint index comment('开始时间')"`                        // @inject_tag: xorm:"bigint index comment('开始时间')"
+	EndTime       int64                   `protobuf:"varint,11,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty" xorm:"bigint index comment('结束时间')"`                              // @inject_tag: xorm:"bigint index comment('结束时间')"
+	Chips         int64                   `protobuf:"varint,12,opt,name=chips,proto3" json:"chips,omitempty" xorm:"bigint comment('当前筹码')"`                                                       // @inject_tag: xorm:"bigint comment('当前筹码')"
+	ServiceChips  int64                   `protobuf:"varint,13,opt,name=service_chips,json=serviceChips,proto3" json:"service_chips,omitempty" xorm:"bigint comment('服务费')"`                      // @inject_tag: xorm:"bigint comment('服务费')"
+	WinChips      int64                   `protobuf:"varint,14,opt,name=win_chips,json=winChips,proto3" json:"win_chips,omitempty" xorm:"bigint comment('输赢')"`                                   // @inject_tag: xorm:"bigint comment('输赢')"
+	UpdateTime    int64                   `protobuf:"varint,15,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty" xorm:"bigint comment('更新时间')"`                           // @inject_tag: xorm:"bigint comment('更新时间')"
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *MysqlTexasPlayerInfo) Reset() {
@@ -390,23 +390,23 @@ func (x *MysqlTexasPlayerInfo) GetUpdateTime() int64 {
 
 // 游戏牌桌数据
 type MysqlTexasGameInfo struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	GameId        string                 `protobuf:"bytes,2,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty" xorm:"varchar(125) pk comment('游戏id')"`                                      // @inject_tag: xorm:"varchar(125) pk comment('游戏id')"
-	TableId       uint64                 `protobuf:"varint,3,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty" xorm:"bigint index comment('牌局id')"`                                  // @inject_tag: xorm:"bigint index comment('牌局id')"
-	Round         uint32                 `protobuf:"varint,4,opt,name=round,proto3" json:"round,omitempty" xorm:"int comment('当前回合')"`                                                     // @inject_tag: xorm:"int comment('当前回合')"
-	GameType      GameTypeId             `protobuf:"varint,5,opt,name=game_type,json=gameType,proto3,enum=g1.protocol.GameTypeId" json:"game_type,omitempty" xorm:"int index comment('房间模式')"`   // @inject_tag: xorm:"int index comment('房间模式')"
-	RoomId        uint64                 `protobuf:"varint,6,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty" xorm:"bigint index comment('房间id')"`                                     // @inject_tag: xorm:"bigint index comment('房间id')"
-	RoomName      string                 `protobuf:"bytes,7,opt,name=room_name,json=roomName,proto3" json:"room_name,omitempty" xorm:"varchar(64) comment('房间名称')"`                                // @inject_tag: xorm:"varchar(64) comment('房间名称')"
-	RoomStage     RoomStage              `protobuf:"varint,8,opt,name=room_stage,json=roomStage,proto3,enum=g1.protocol.RoomStage" json:"room_stage,omitempty" xorm:"int index comment('房间阶段')"` // @inject_tag: xorm:"int index comment('房间阶段')"
-	Blind         string                 `protobuf:"bytes,9,opt,name=blind,proto3" json:"blind,omitempty" xorm:"varchar(30) index comment('小/大盲注')"`                                                      // @inject_tag: xorm:"varchar(30) index comment('小/大盲注')"
-	BeginTime     int64                  `protobuf:"varint,10,opt,name=begin_time,json=beginTime,proto3" json:"begin_time,omitempty" xorm:"bigint index comment('创建房间时间')"`                           // @inject_tag: xorm:"bigint index comment('创建房间时间')"
-	EndTime       int64                  `protobuf:"varint,11,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty" xorm:"bigint index comment('房间结束时间')"`                                 // @inject_tag: xorm:"bigint index comment('房间结束时间')"
-	TotalPot      int64                  `protobuf:"varint,12,opt,name=total_pot,json=totalPot,proto3" json:"total_pot,omitempty" xorm:"bigint comment('底池')"`                              // @inject_tag: xorm:"bigint comment('底池')"
-	TotalService  int64                  `protobuf:"varint,13,opt,name=total_service,json=totalService,proto3" json:"total_service,omitempty" xorm:"bigint comment('玩家服务费')"`                  // @inject_tag: xorm:"bigint comment('玩家服务费')"
-	GameDetail    []byte                 `protobuf:"bytes,14,opt,name=game_detail,json=gameDetail,proto3" json:"game_detail,omitempty" xorm:"blob comment('游戏记录详情')"`                         // @inject_tag: xorm:"blob comment('游戏记录详情')"
-	UpdateTime    int64                  `protobuf:"varint,15,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty" xorm:"bigint comment('更新时间')"`                        // @inject_tag: xorm:"bigint comment('更新时间')"
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState  `protogen:"open.v1" xorm:"-"`
+	GameId        string                  `protobuf:"bytes,2,opt,name=game_id,json=gameId,proto3" json:"game_id,omitempty" xorm:"varchar(125) pk comment('游戏id')"`                                // @inject_tag: xorm:"varchar(125) pk comment('游戏id')"
+	TableId       uint64                  `protobuf:"varint,3,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty" xorm:"bigint index comment('牌局id')"`                               // @inject_tag: xorm:"bigint index comment('牌局id')"
+	Round         uint32                  `protobuf:"varint,4,opt,name=round,proto3" json:"round,omitempty" xorm:"int comment('当前回合')"`                                                           // @inject_tag: xorm:"int comment('当前回合')"
+	GameType      GameTypeId              `protobuf:"varint,5,opt,name=game_type,json=gameType,proto3,enum=g1.protocol.GameTypeId" json:"game_type,omitempty" xorm:"int index comment('房间模式')"`   // @inject_tag: xorm:"int index comment('房间模式')"
+	RoomId        uint64                  `protobuf:"varint,6,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty" xorm:"bigint index comment('房间id')"`                                  // @inject_tag: xorm:"bigint index comment('房间id')"
+	RoomName      string                  `protobuf:"bytes,7,opt,name=room_name,json=roomName,proto3" json:"room_name,omitempty" xorm:"varchar(64) comment('房间名称')"`                              // @inject_tag: xorm:"varchar(64) comment('房间名称')"
+	RoomStage     RoomStage               `protobuf:"varint,8,opt,name=room_stage,json=roomStage,proto3,enum=g1.protocol.RoomStage" json:"room_stage,omitempty" xorm:"int index comment('房间阶段')"` // @inject_tag: xorm:"int index comment('房间阶段')"
+	Blind         string                  `protobuf:"bytes,9,opt,name=blind,proto3" json:"blind,omitempty" xorm:"varchar(30) index comment('小/大盲注')"`                                             // @inject_tag: xorm:"varchar(30) index comment('小/大盲注')"
+	BeginTime     int64                   `protobuf:"varint,10,opt,name=begin_time,json=beginTime,proto3" json:"begin_time,omitempty" xorm:"bigint index comment('创建房间时间')"`                      // @inject_tag: xorm:"bigint index comment('创建房间时间')"
+	EndTime       int64                   `protobuf:"varint,11,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty" xorm:"bigint index comment('房间结束时间')"`                            // @inject_tag: xorm:"bigint index comment('房间结束时间')"
+	TotalPot      int64                   `protobuf:"varint,12,opt,name=total_pot,json=totalPot,proto3" json:"total_pot,omitempty" xorm:"bigint comment('底池')"`                                   // @inject_tag: xorm:"bigint comment('底池')"
+	TotalService  int64                   `protobuf:"varint,13,opt,name=total_service,json=totalService,proto3" json:"total_service,omitempty" xorm:"bigint comment('玩家服务费')"`                    // @inject_tag: xorm:"bigint comment('玩家服务费')"
+	GameDetail    []byte                  `protobuf:"bytes,14,opt,name=game_detail,json=gameDetail,proto3" json:"game_detail,omitempty" xorm:"blob comment('游戏记录详情')"`                            // @inject_tag: xorm:"blob comment('游戏记录详情')"
+	UpdateTime    int64                   `protobuf:"varint,15,opt,name=update_time,json=updateTime,proto3" json:"update_time,omitempty" xorm:"bigint comment('更新时间')"`                           // @inject_tag: xorm:"bigint comment('更新时间')"
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *MysqlTexasGameInfo) Reset() {
@@ -539,19 +539,19 @@ func (x *MysqlTexasGameInfo) GetUpdateTime() int64 {
 
 // 游戏房间回合
 type TexasGameRecord struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	TableId       uint64                 `protobuf:"varint,1,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`                                  // 牌局id(唯一)
-	GameType      GameTypeId             `protobuf:"varint,2,opt,name=game_type,json=gameType,proto3,enum=g1.protocol.GameTypeId" json:"game_type,omitempty"`   // 游戏类型
-	RoomStage     RoomStage              `protobuf:"varint,3,opt,name=room_stage,json=roomStage,proto3,enum=g1.protocol.RoomStage" json:"room_stage,omitempty"` // 房间阶段
-	Blind         string                 `protobuf:"bytes,4,opt,name=blind,proto3" json:"blind,omitempty"`                                                      // 小/大盲注
-	BeginTime     int64                  `protobuf:"varint,5,opt,name=begin_time,json=beginTime,proto3" json:"begin_time,omitempty"`                            // 开始时间
-	EndTime       int64                  `protobuf:"varint,6,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`                                  // 结束时间
-	TotalPot      int64                  `protobuf:"varint,7,opt,name=total_pot,json=totalPot,proto3" json:"total_pot,omitempty"`                               // 底池
-	TotalService  int64                  `protobuf:"varint,8,opt,name=total_service,json=totalService,proto3" json:"total_service,omitempty"`                   // 玩家服务费
-	Round         uint32                 `protobuf:"varint,9,opt,name=round,proto3" json:"round,omitempty"`                                                     // 当前回合
-	Detail        *TexasGameRecordDetail `protobuf:"bytes,10,opt,name=detail,proto3" json:"detail,omitempty"`                                                   // 游戏详细数据
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState  `protogen:"open.v1" xorm:"-"`
+	TableId       uint64                  `protobuf:"varint,1,opt,name=table_id,json=tableId,proto3" json:"table_id,omitempty"`                                  // 牌局id(唯一)
+	GameType      GameTypeId              `protobuf:"varint,2,opt,name=game_type,json=gameType,proto3,enum=g1.protocol.GameTypeId" json:"game_type,omitempty"`   // 游戏类型
+	RoomStage     RoomStage               `protobuf:"varint,3,opt,name=room_stage,json=roomStage,proto3,enum=g1.protocol.RoomStage" json:"room_stage,omitempty"` // 房间阶段
+	Blind         string                  `protobuf:"bytes,4,opt,name=blind,proto3" json:"blind,omitempty"`                                                      // 小/大盲注
+	BeginTime     int64                   `protobuf:"varint,5,opt,name=begin_time,json=beginTime,proto3" json:"begin_time,omitempty"`                            // 开始时间
+	EndTime       int64                   `protobuf:"varint,6,opt,name=end_time,json=endTime,proto3" json:"end_time,omitempty"`                                  // 结束时间
+	TotalPot      int64                   `protobuf:"varint,7,opt,name=total_pot,json=totalPot,proto3" json:"total_pot,omitempty"`                               // 底池
+	TotalService  int64                   `protobuf:"varint,8,opt,name=total_service,json=totalService,proto3" json:"total_service,omitempty"`                   // 玩家服务费
+	Round         uint32                  `protobuf:"varint,9,opt,name=round,proto3" json:"round,omitempty"`                                                     // 当前回合
+	Detail        *TexasGameRecordDetail  `protobuf:"bytes,10,opt,name=detail,proto3" json:"detail,omitempty"`                                                   // 游戏详细数据
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *TexasGameRecord) Reset() {
@@ -655,12 +655,12 @@ func (x *TexasGameRecord) GetDetail() *TexasGameRecordDetail {
 }
 
 type TexasGameRecordDetail struct {
-	state         protoimpl.MessageState      `protogen:"open.v1"`
+	state         protoimpl.MessageState      `protogen:"open.v1" xorm:"-"`
 	DealList      []*TexasGamePokerDealRecord `protobuf:"bytes,1,rep,name=deal_list,json=dealList,proto3" json:"deal_list,omitempty"`          // 发牌记录
 	PlayerList    []*TexasGamePlayerRecord    `protobuf:"bytes,2,rep,name=player_list,json=playerList,proto3" json:"player_list,omitempty"`    // 玩家列表
 	OperateList   []*TexasGameOperateRecord   `protobuf:"bytes,3,rep,name=operate_list,json=operateList,proto3" json:"operate_list,omitempty"` // 玩家操作记录
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields     `xorm:"-"`
+	sizeCache     protoimpl.SizeCache         `xorm:"-"`
 }
 
 func (x *TexasGameRecordDetail) Reset() {
@@ -715,13 +715,13 @@ func (x *TexasGameRecordDetail) GetOperateList() []*TexasGameOperateRecord {
 }
 
 type TexasGamePokerDealRecord struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	DealType      DealType               `protobuf:"varint,1,opt,name=deal_type,json=dealType,proto3,enum=g1.protocol.DealType" json:"deal_type,omitempty"`
-	Uid           uint64                 `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty"`
-	Card          uint32                 `protobuf:"varint,3,opt,name=card,proto3" json:"card,omitempty"`
-	Cursor        uint32                 `protobuf:"varint,4,opt,name=cursor,proto3" json:"cursor,omitempty"`
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState  `protogen:"open.v1" xorm:"-"`
+	DealType      DealType                `protobuf:"varint,1,opt,name=deal_type,json=dealType,proto3,enum=g1.protocol.DealType" json:"deal_type,omitempty"`
+	Uid           uint64                  `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty"`
+	Card          uint32                  `protobuf:"varint,3,opt,name=card,proto3" json:"card,omitempty"`
+	Cursor        uint32                  `protobuf:"varint,4,opt,name=cursor,proto3" json:"cursor,omitempty"`
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *TexasGamePokerDealRecord) Reset() {
@@ -783,16 +783,16 @@ func (x *TexasGamePokerDealRecord) GetCursor() uint32 {
 }
 
 type TexasGamePlayerRecord struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	Uid           uint64                 `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
-	ChairId       uint32                 `protobuf:"varint,2,opt,name=chair_id,json=chairId,proto3" json:"chair_id,omitempty"`                              // 玩家座位号
-	Chips         int64                  `protobuf:"varint,3,opt,name=chips,proto3" json:"chips,omitempty"`                                                 // 玩家筹码
-	WinChips      int64                  `protobuf:"varint,4,opt,name=win_chips,json=winChips,proto3" json:"win_chips,omitempty"`                           // 玩家赢得筹码
-	CardType      CardType               `protobuf:"varint,5,opt,name=card_type,json=cardType,proto3,enum=g1.protocol.CardType" json:"card_type,omitempty"` // 玩家牌型
-	HandCardList  []uint32               `protobuf:"varint,6,rep,packed,name=hand_card_list,json=handCardList,proto3" json:"hand_card_list,omitempty"`      // 玩家手牌
-	BestCardList  []uint32               `protobuf:"varint,7,rep,packed,name=best_card_list,json=bestCardList,proto3" json:"best_card_list,omitempty"`      // 玩家最大牌
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState  `protogen:"open.v1" xorm:"-"`
+	Uid           uint64                  `protobuf:"varint,1,opt,name=uid,proto3" json:"uid,omitempty"`
+	ChairId       uint32                  `protobuf:"varint,2,opt,name=chair_id,json=chairId,proto3" json:"chair_id,omitempty"`                              // 玩家座位号
+	Chips         int64                   `protobuf:"varint,3,opt,name=chips,proto3" json:"chips,omitempty"`                                                 // 玩家筹码
+	WinChips      int64                   `protobuf:"varint,4,opt,name=win_chips,json=winChips,proto3" json:"win_chips,omitempty"`                           // 玩家赢得筹码
+	CardType      CardType                `protobuf:"varint,5,opt,name=card_type,json=cardType,proto3,enum=g1.protocol.CardType" json:"card_type,omitempty"` // 玩家牌型
+	HandCardList  []uint32                `protobuf:"varint,6,rep,packed,name=hand_card_list,json=handCardList,proto3" json:"hand_card_list,omitempty"`      // 玩家手牌
+	BestCardList  []uint32                `protobuf:"varint,7,rep,packed,name=best_card_list,json=bestCardList,proto3" json:"best_card_list,omitempty"`      // 玩家最大牌
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *TexasGamePlayerRecord) Reset() {
@@ -875,13 +875,13 @@ func (x *TexasGamePlayerRecord) GetBestCardList() []uint32 {
 }
 
 type TexasGameOperateRecord struct {
-	state         protoimpl.MessageState `protogen:"open.v1"`
-	GameState     GameState              `protobuf:"varint,1,opt,name=game_state,json=gameState,proto3,enum=g1.protocol.GameState" json:"game_state,omitempty"` // 游戏状态
-	Uid           uint64                 `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty"`                                                         // 玩家id
-	Operate       OperateType            `protobuf:"varint,3,opt,name=operate,proto3,enum=g1.protocol.OperateType" json:"operate,omitempty"`                    // 玩家操作
-	BetChips      int64                  `protobuf:"varint,4,opt,name=bet_chips,json=betChips,proto3" json:"bet_chips,omitempty"`                               // 玩家下注筹码
-	unknownFields protoimpl.UnknownFields
-	sizeCache     protoimpl.SizeCache
+	state         protoimpl.MessageState  `protogen:"open.v1" xorm:"-"`
+	GameState     GameState               `protobuf:"varint,1,opt,name=game_state,json=gameState,proto3,enum=g1.protocol.GameState" json:"game_state,omitempty"` // 游戏状态
+	Uid           uint64                  `protobuf:"varint,2,opt,name=uid,proto3" json:"uid,omitempty"`                                                         // 玩家id
+	Operate       OperateType             `protobuf:"varint,3,opt,name=operate,proto3,enum=g1.protocol.OperateType" json:"operate,omitempty"`                    // 玩家操作
+	BetChips      int64                   `protobuf:"varint,4,opt,name=bet_chips,json=betChips,proto3" json:"bet_chips,omitempty"`                               // 玩家下注筹码
+	unknownFields protoimpl.UnknownFields `xorm:"-"`
+	sizeCache     protoimpl.SizeCache     `xorm:"-"`
 }
 
 func (x *TexasGameOperateRecord) Reset() {

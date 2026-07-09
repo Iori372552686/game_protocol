@@ -50,8 +50,15 @@ rm -rf ./protocol
     --go_opt=paths=import \
     "${PROTO_FILES[@]}"
 
-cp -f index.gen.go ./protocol/index.gen.go
-
 if [ -f "./protocol/database.pb.go" ]; then
     "${PROTOC_GO_INJECT_TAG}" -input=./protocol/database.pb.go
+
+    # 批量添加 xorm:"-" 忽略标签到 protobuf 内部字段，避免旧版 xorm 反射未导出字段时 panic。
+    # protoc-gen-go v1.33+ 将内部字段从 XXX_ 前缀改为 state/sizeCache/unknownFields，
+    # 因此 protoc-go-inject-tag 的 xxxSkip 选项不再生效，需要额外后处理。
+    sed -i -E 's/(^\s*state\s+protoimpl\.MessageState\s+`)([^`]*)(`)/\1\2 xorm:"-"\3/' ./protocol/database.pb.go
+    sed -i -E 's/(^\s*sizeCache\s+protoimpl\.SizeCache)[[:space:]]*$/\1 `xorm:"-"`/' ./protocol/database.pb.go
+    sed -i -E 's/(^\s*unknownFields\s+protoimpl\.UnknownFields)[[:space:]]*$/\1 `xorm:"-"`/' ./protocol/database.pb.go
+
+    gofmt -w ./protocol/database.pb.go
 fi
