@@ -969,7 +969,7 @@ func (x *RoleGuildInfo) GetDonateCnt() uint32 {
 	return 0
 }
 
-// 玩家引导ID
+//玩家引导ID
 type RoleGuideInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	IdLis         []int32                `protobuf:"varint,1,rep,packed,name=id_lis,json=idLis,proto3" json:"id_lis,omitempty"` // 已经完成
@@ -1120,7 +1120,7 @@ func (x *RoleGiftExchangeInfo) GetTypeMap() map[int32]int32 {
 	return nil
 }
 
-// 活动任务,日常，成就等
+//活动任务,日常，成就等
 type RoleActvityTaskInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	TaskMap       map[int32]*PbTask      `protobuf:"bytes,1,rep,name=task_map,json=taskMap,proto3" json:"task_map,omitempty" protobuf_key:"varint,1,opt,name=key" protobuf_val:"bytes,2,opt,name=value"`

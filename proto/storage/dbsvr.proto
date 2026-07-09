@@ -6,16 +6,6 @@ option go_package = "github.com/Iori372552686/game_protocol/protocol;g1_protocol
 import "proto/core/common.proto";
 import "google/protobuf/descriptor.proto";
 
-// 定义 XORM 扩展选项
-extend google.protobuf.FieldOptions {
-    string xorm_type     = 50000; // 数据库字段类型
-    string xorm_column   = 50001; // 数据库列名（默认使用 proto 字段名）
-    bool   xorm_pk       = 50002; // 是否为主键
-    bool   xorm_autoincr = 50003; // 是否自增
-    bool   xorm_index    = 50004; // 是否创建索引
-    bool   xorm_nullable = 50005; // 是否允许 NULL
-}
-
 // DB_UID_GET_REQ
 message DBUidGetReq {
     uint32 db_type = 1;

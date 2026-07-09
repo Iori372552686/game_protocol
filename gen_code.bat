@@ -3,7 +3,7 @@ setlocal EnableDelayedExpansion
 
 set module=github.com/Iori372552686/game_protocol
 set bin_dir=.bin
-set protoc_dir=..\lib\contrib\protoc\protoc-33.2-win64\bin
+set protoc_dir=.\bin
 set protoc_include=..\lib\contrib\protoc\protoc-33.2-win64\include
 set protoc_gen_go=%bin_dir%\protoc-gen-go.exe
 set protoc_go_inject_tag=%bin_dir%\protoc-go-inject-tag.exe

@@ -21,7 +21,7 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-// inner room TickReq
+//inner room TickReq
 type InnerTickReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	NowMs         int64                  `protobuf:"varint,1,opt,name=nowMs,proto3" json:"nowMs,omitempty"`                         // 当前时间戳
@@ -691,8 +691,7 @@ func (x *TableTexasGameData) GetPrivateData() *TexasGamePrivateData {
 	return nil
 }
 
-//	-------------- 游戏事件通知结构 --------------
-//
+//   -------------- 游戏事件通知结构 --------------
 // NOTIFY_EVENT_BET,NOTIFY_EVENT_CALL,NOTIFY_EVENT_RAISE,NOTIFY_EVENT_CHECK,NOTIFY_EVENT_BET_ANTE
 // NOTIFY_EVENT_BET_BIG_BLIND,NOTIFY_EVENT_BET_SMALL_BLIND,NOTIFY_EVENT_BET_SMALL_BLIND
 type NotifyGameEventBet struct {

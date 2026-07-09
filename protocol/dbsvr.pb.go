@@ -9,7 +9,7 @@ package g1_protocol
 import (
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	descriptorpb "google.golang.org/protobuf/types/descriptorpb"
+	_ "google.golang.org/protobuf/types/descriptorpb"
 	reflect "reflect"
 	sync "sync"
 	unsafe "unsafe"
@@ -1906,73 +1906,6 @@ func (x *DBCommSetExNxRsp) GetRet() *Ret {
 	return nil
 }
 
-var file_proto_storage_dbsvr_proto_extTypes = []protoimpl.ExtensionInfo{
-	{
-		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
-		ExtensionType: (*string)(nil),
-		Field:         50000,
-		Name:          "g1.protocol.xorm_type",
-		Tag:           "bytes,50000,opt,name=xorm_type",
-		Filename:      "proto/storage/dbsvr.proto",
-	},
-	{
-		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
-		ExtensionType: (*string)(nil),
-		Field:         50001,
-		Name:          "g1.protocol.xorm_column",
-		Tag:           "bytes,50001,opt,name=xorm_column",
-		Filename:      "proto/storage/dbsvr.proto",
-	},
-	{
-		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
-		ExtensionType: (*bool)(nil),
-		Field:         50002,
-		Name:          "g1.protocol.xorm_pk",
-		Tag:           "varint,50002,opt,name=xorm_pk",
-		Filename:      "proto/storage/dbsvr.proto",
-	},
-	{
-		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
-		ExtensionType: (*bool)(nil),
-		Field:         50003,
-		Name:          "g1.protocol.xorm_autoincr",
-		Tag:           "varint,50003,opt,name=xorm_autoincr",
-		Filename:      "proto/storage/dbsvr.proto",
-	},
-	{
-		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
-		ExtensionType: (*bool)(nil),
-		Field:         50004,
-		Name:          "g1.protocol.xorm_index",
-		Tag:           "varint,50004,opt,name=xorm_index",
-		Filename:      "proto/storage/dbsvr.proto",
-	},
-	{
-		ExtendedType:  (*descriptorpb.FieldOptions)(nil),
-		ExtensionType: (*bool)(nil),
-		Field:         50005,
-		Name:          "g1.protocol.xorm_nullable",
-		Tag:           "varint,50005,opt,name=xorm_nullable",
-		Filename:      "proto/storage/dbsvr.proto",
-	},
-}
-
-// Extension fields to descriptorpb.FieldOptions.
-var (
-	// optional string xorm_type = 50000;
-	E_XormType = &file_proto_storage_dbsvr_proto_extTypes[0] // 数据库字段类型
-	// optional string xorm_column = 50001;
-	E_XormColumn = &file_proto_storage_dbsvr_proto_extTypes[1] // 数据库列名（默认使用 proto 字段名）
-	// optional bool xorm_pk = 50002;
-	E_XormPk = &file_proto_storage_dbsvr_proto_extTypes[2] // 是否为主键
-	// optional bool xorm_autoincr = 50003;
-	E_XormAutoincr = &file_proto_storage_dbsvr_proto_extTypes[3] // 是否自增
-	// optional bool xorm_index = 50004;
-	E_XormIndex = &file_proto_storage_dbsvr_proto_extTypes[4] // 是否创建索引
-	// optional bool xorm_nullable = 50005;
-	E_XormNullable = &file_proto_storage_dbsvr_proto_extTypes[5] // 是否允许 NULL
-)
-
 var File_proto_storage_dbsvr_proto protoreflect.FileDescriptor
 
 var file_proto_storage_dbsvr_proto_rawDesc = string([]byte{
@@ -2163,36 +2096,12 @@ var file_proto_storage_dbsvr_proto_rawDesc = string([]byte{
 	0x64, 0x73, 0x22, 0x36, 0x0a, 0x10, 0x44, 0x42, 0x43, 0x6f, 0x6d, 0x6d, 0x53, 0x65, 0x74, 0x45,
 	0x78, 0x4e, 0x78, 0x52, 0x73, 0x70, 0x12, 0x22, 0x0a, 0x03, 0x72, 0x65, 0x74, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x0b, 0x32, 0x10, 0x2e, 0x67, 0x31, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f,
-	0x6c, 0x2e, 0x52, 0x65, 0x74, 0x52, 0x03, 0x72, 0x65, 0x74, 0x3a, 0x3c, 0x0a, 0x09, 0x78, 0x6f,
-	0x72, 0x6d, 0x5f, 0x74, 0x79, 0x70, 0x65, 0x12, 0x1d, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4f,
-	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0xd0, 0x86, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08,
-	0x78, 0x6f, 0x72, 0x6d, 0x54, 0x79, 0x70, 0x65, 0x3a, 0x40, 0x0a, 0x0b, 0x78, 0x6f, 0x72, 0x6d,
-	0x5f, 0x63, 0x6f, 0x6c, 0x75, 0x6d, 0x6e, 0x12, 0x1d, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65,
-	0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4f,
-	0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0xd1, 0x86, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a,
-	0x78, 0x6f, 0x72, 0x6d, 0x43, 0x6f, 0x6c, 0x75, 0x6d, 0x6e, 0x3a, 0x38, 0x0a, 0x07, 0x78, 0x6f,
-	0x72, 0x6d, 0x5f, 0x70, 0x6b, 0x12, 0x1d, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4f, 0x70, 0x74,
-	0x69, 0x6f, 0x6e, 0x73, 0x18, 0xd2, 0x86, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x06, 0x78, 0x6f,
-	0x72, 0x6d, 0x50, 0x6b, 0x3a, 0x44, 0x0a, 0x0d, 0x78, 0x6f, 0x72, 0x6d, 0x5f, 0x61, 0x75, 0x74,
-	0x6f, 0x69, 0x6e, 0x63, 0x72, 0x12, 0x1d, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64, 0x4f, 0x70, 0x74,
-	0x69, 0x6f, 0x6e, 0x73, 0x18, 0xd3, 0x86, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52, 0x0c, 0x78, 0x6f,
-	0x72, 0x6d, 0x41, 0x75, 0x74, 0x6f, 0x69, 0x6e, 0x63, 0x72, 0x3a, 0x3e, 0x0a, 0x0a, 0x78, 0x6f,
-	0x72, 0x6d, 0x5f, 0x69, 0x6e, 0x64, 0x65, 0x78, 0x12, 0x1d, 0x2e, 0x67, 0x6f, 0x6f, 0x67, 0x6c,
-	0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69, 0x65, 0x6c, 0x64,
-	0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0xd4, 0x86, 0x03, 0x20, 0x01, 0x28, 0x08, 0x52,
-	0x09, 0x78, 0x6f, 0x72, 0x6d, 0x49, 0x6e, 0x64, 0x65, 0x78, 0x3a, 0x44, 0x0a, 0x0d, 0x78, 0x6f,
-	0x72, 0x6d, 0x5f, 0x6e, 0x75, 0x6c, 0x6c, 0x61, 0x62, 0x6c, 0x65, 0x12, 0x1d, 0x2e, 0x67, 0x6f,
-	0x6f, 0x67, 0x6c, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x62, 0x75, 0x66, 0x2e, 0x46, 0x69,
-	0x65, 0x6c, 0x64, 0x4f, 0x70, 0x74, 0x69, 0x6f, 0x6e, 0x73, 0x18, 0xd5, 0x86, 0x03, 0x20, 0x01,
-	0x28, 0x08, 0x52, 0x0c, 0x78, 0x6f, 0x72, 0x6d, 0x4e, 0x75, 0x6c, 0x6c, 0x61, 0x62, 0x6c, 0x65,
-	0x42, 0x3d, 0x5a, 0x3b, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x49,
-	0x6f, 0x72, 0x69, 0x33, 0x37, 0x32, 0x35, 0x35, 0x32, 0x36, 0x38, 0x36, 0x2f, 0x67, 0x61, 0x6d,
-	0x65, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x63, 0x6f, 0x6c, 0x3b, 0x67, 0x31, 0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x62,
-	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x6c, 0x2e, 0x52, 0x65, 0x74, 0x52, 0x03, 0x72, 0x65, 0x74, 0x42, 0x3d, 0x5a, 0x3b, 0x67, 0x69,
+	0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x49, 0x6f, 0x72, 0x69, 0x33, 0x37, 0x32,
+	0x35, 0x35, 0x32, 0x36, 0x38, 0x36, 0x2f, 0x67, 0x61, 0x6d, 0x65, 0x5f, 0x70, 0x72, 0x6f, 0x74,
+	0x6f, 0x63, 0x6f, 0x6c, 0x2f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x3b, 0x67, 0x31,
+	0x5f, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x63, 0x6f, 0x6c, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 })
 
 var (
@@ -2209,41 +2118,40 @@ func file_proto_storage_dbsvr_proto_rawDescGZIP() []byte {
 
 var file_proto_storage_dbsvr_proto_msgTypes = make([]protoimpl.MessageInfo, 33)
 var file_proto_storage_dbsvr_proto_goTypes = []any{
-	(*DBUidGetReq)(nil),               // 0: g1.protocol.DBUidGetReq
-	(*DBUidGetRsp)(nil),               // 1: g1.protocol.DBUidGetRsp
-	(*DBUidMGetReq)(nil),              // 2: g1.protocol.DBUidMGetReq
-	(*DBUidMGetRsp)(nil),              // 3: g1.protocol.DBUidMGetRsp
-	(*DBUidSetReq)(nil),               // 4: g1.protocol.DBUidSetReq
-	(*DBUidSetRsp)(nil),               // 5: g1.protocol.DBUidSetRsp
-	(*DBCommGetReq)(nil),              // 6: g1.protocol.DBCommGetReq
-	(*DBCommGetRsp)(nil),              // 7: g1.protocol.DBCommGetRsp
-	(*DBCommMGetReq)(nil),             // 8: g1.protocol.DBCommMGetReq
-	(*DBCommMGetRsp)(nil),             // 9: g1.protocol.DBCommMGetRsp
-	(*DBCommSetReq)(nil),              // 10: g1.protocol.DBCommSetReq
-	(*DBCommSetRsp)(nil),              // 11: g1.protocol.DBCommSetRsp
-	(*DBCommDelReq)(nil),              // 12: g1.protocol.DBCommDelReq
-	(*DBCommDelRsp)(nil),              // 13: g1.protocol.DBCommDelRsp
-	(*DBCommIncrReq)(nil),             // 14: g1.protocol.DBCommIncrReq
-	(*DBCommIncrRsp)(nil),             // 15: g1.protocol.DBCommIncrRsp
-	(*DBCommZsetSetReq)(nil),          // 16: g1.protocol.DBCommZsetSetReq
-	(*DBCommZsetSetRsp)(nil),          // 17: g1.protocol.DBCommZsetSetRsp
-	(*DBCommZsetGetReq)(nil),          // 18: g1.protocol.DBCommZsetGetReq
-	(*DBCommZsetGetRsp)(nil),          // 19: g1.protocol.DBCommZsetGetRsp
-	(*DBCommZsetFindRankReq)(nil),     // 20: g1.protocol.DBCommZsetFindRankReq
-	(*DBCommZsetFindRankRsp)(nil),     // 21: g1.protocol.DBCommZsetFindRankRsp
-	(*DBCommZsetIncrReq)(nil),         // 22: g1.protocol.DBCommZsetIncrReq
-	(*DBCommZsetIncrRsp)(nil),         // 23: g1.protocol.DBCommZsetIncrRsp
-	(*DBCommZScoreReq)(nil),           // 24: g1.protocol.DBCommZScoreReq
-	(*DBCommZScoreRsp)(nil),           // 25: g1.protocol.DBCommZScoreRsp
-	(*DBCommZRevRangeReq)(nil),        // 26: g1.protocol.DBCommZRevRangeReq
-	(*DBRedisZItem)(nil),              // 27: g1.protocol.DBRedisZItem
-	(*DBCommZRevRangeRsp)(nil),        // 28: g1.protocol.DBCommZRevRangeRsp
-	(*DBCommExpireReq)(nil),           // 29: g1.protocol.DBCommExpireReq
-	(*DBCommExpireRsp)(nil),           // 30: g1.protocol.DBCommExpireRsp
-	(*DBCommSetExNxReq)(nil),          // 31: g1.protocol.DBCommSetExNxReq
-	(*DBCommSetExNxRsp)(nil),          // 32: g1.protocol.DBCommSetExNxRsp
-	(*Ret)(nil),                       // 33: g1.protocol.Ret
-	(*descriptorpb.FieldOptions)(nil), // 34: google.protobuf.FieldOptions
+	(*DBUidGetReq)(nil),           // 0: g1.protocol.DBUidGetReq
+	(*DBUidGetRsp)(nil),           // 1: g1.protocol.DBUidGetRsp
+	(*DBUidMGetReq)(nil),          // 2: g1.protocol.DBUidMGetReq
+	(*DBUidMGetRsp)(nil),          // 3: g1.protocol.DBUidMGetRsp
+	(*DBUidSetReq)(nil),           // 4: g1.protocol.DBUidSetReq
+	(*DBUidSetRsp)(nil),           // 5: g1.protocol.DBUidSetRsp
+	(*DBCommGetReq)(nil),          // 6: g1.protocol.DBCommGetReq
+	(*DBCommGetRsp)(nil),          // 7: g1.protocol.DBCommGetRsp
+	(*DBCommMGetReq)(nil),         // 8: g1.protocol.DBCommMGetReq
+	(*DBCommMGetRsp)(nil),         // 9: g1.protocol.DBCommMGetRsp
+	(*DBCommSetReq)(nil),          // 10: g1.protocol.DBCommSetReq
+	(*DBCommSetRsp)(nil),          // 11: g1.protocol.DBCommSetRsp
+	(*DBCommDelReq)(nil),          // 12: g1.protocol.DBCommDelReq
+	(*DBCommDelRsp)(nil),          // 13: g1.protocol.DBCommDelRsp
+	(*DBCommIncrReq)(nil),         // 14: g1.protocol.DBCommIncrReq
+	(*DBCommIncrRsp)(nil),         // 15: g1.protocol.DBCommIncrRsp
+	(*DBCommZsetSetReq)(nil),      // 16: g1.protocol.DBCommZsetSetReq
+	(*DBCommZsetSetRsp)(nil),      // 17: g1.protocol.DBCommZsetSetRsp
+	(*DBCommZsetGetReq)(nil),      // 18: g1.protocol.DBCommZsetGetReq
+	(*DBCommZsetGetRsp)(nil),      // 19: g1.protocol.DBCommZsetGetRsp
+	(*DBCommZsetFindRankReq)(nil), // 20: g1.protocol.DBCommZsetFindRankReq
+	(*DBCommZsetFindRankRsp)(nil), // 21: g1.protocol.DBCommZsetFindRankRsp
+	(*DBCommZsetIncrReq)(nil),     // 22: g1.protocol.DBCommZsetIncrReq
+	(*DBCommZsetIncrRsp)(nil),     // 23: g1.protocol.DBCommZsetIncrRsp
+	(*DBCommZScoreReq)(nil),       // 24: g1.protocol.DBCommZScoreReq
+	(*DBCommZScoreRsp)(nil),       // 25: g1.protocol.DBCommZScoreRsp
+	(*DBCommZRevRangeReq)(nil),    // 26: g1.protocol.DBCommZRevRangeReq
+	(*DBRedisZItem)(nil),          // 27: g1.protocol.DBRedisZItem
+	(*DBCommZRevRangeRsp)(nil),    // 28: g1.protocol.DBCommZRevRangeRsp
+	(*DBCommExpireReq)(nil),       // 29: g1.protocol.DBCommExpireReq
+	(*DBCommExpireRsp)(nil),       // 30: g1.protocol.DBCommExpireRsp
+	(*DBCommSetExNxReq)(nil),      // 31: g1.protocol.DBCommSetExNxReq
+	(*DBCommSetExNxRsp)(nil),      // 32: g1.protocol.DBCommSetExNxRsp
+	(*Ret)(nil),                   // 33: g1.protocol.Ret
 }
 var file_proto_storage_dbsvr_proto_depIdxs = []int32{
 	33, // 0: g1.protocol.DBUidGetRsp.ret:type_name -> g1.protocol.Ret
@@ -2263,16 +2171,10 @@ var file_proto_storage_dbsvr_proto_depIdxs = []int32{
 	27, // 14: g1.protocol.DBCommZRevRangeRsp.items:type_name -> g1.protocol.DBRedisZItem
 	33, // 15: g1.protocol.DBCommExpireRsp.ret:type_name -> g1.protocol.Ret
 	33, // 16: g1.protocol.DBCommSetExNxRsp.ret:type_name -> g1.protocol.Ret
-	34, // 17: g1.protocol.xorm_type:extendee -> google.protobuf.FieldOptions
-	34, // 18: g1.protocol.xorm_column:extendee -> google.protobuf.FieldOptions
-	34, // 19: g1.protocol.xorm_pk:extendee -> google.protobuf.FieldOptions
-	34, // 20: g1.protocol.xorm_autoincr:extendee -> google.protobuf.FieldOptions
-	34, // 21: g1.protocol.xorm_index:extendee -> google.protobuf.FieldOptions
-	34, // 22: g1.protocol.xorm_nullable:extendee -> google.protobuf.FieldOptions
-	23, // [23:23] is the sub-list for method output_type
-	23, // [23:23] is the sub-list for method input_type
-	23, // [23:23] is the sub-list for extension type_name
-	17, // [17:23] is the sub-list for extension extendee
+	17, // [17:17] is the sub-list for method output_type
+	17, // [17:17] is the sub-list for method input_type
+	17, // [17:17] is the sub-list for extension type_name
+	17, // [17:17] is the sub-list for extension extendee
 	0,  // [0:17] is the sub-list for field type_name
 }
 
@@ -2289,13 +2191,12 @@ func file_proto_storage_dbsvr_proto_init() {
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_proto_storage_dbsvr_proto_rawDesc), len(file_proto_storage_dbsvr_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   33,
-			NumExtensions: 6,
+			NumExtensions: 0,
 			NumServices:   0,
 		},
 		GoTypes:           file_proto_storage_dbsvr_proto_goTypes,
 		DependencyIndexes: file_proto_storage_dbsvr_proto_depIdxs,
 		MessageInfos:      file_proto_storage_dbsvr_proto_msgTypes,
-		ExtensionInfos:    file_proto_storage_dbsvr_proto_extTypes,
 	}.Build()
 	File_proto_storage_dbsvr_proto = out.File
 	file_proto_storage_dbsvr_proto_goTypes = nil
