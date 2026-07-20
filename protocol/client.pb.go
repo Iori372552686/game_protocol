@@ -7621,7 +7621,7 @@ func (x *EarlySettleRsp) GetRet() *Ret {
 	return nil
 }
 
-//创建房间 MAIN_GAME_CREATE_ROOM_REQ
+// 创建房间 MAIN_GAME_CREATE_ROOM_REQ
 type CreateRoomReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GameId        GameTypeId             `protobuf:"varint,1,opt,name=game_id,json=gameId,proto3,enum=g1.protocol.GameTypeId" json:"game_id,omitempty"`      // 游戏id
@@ -7878,7 +7878,7 @@ func (x *CreateRoomRsp) GetRoomInfo() *RoomBaseInfo {
 	return nil
 }
 
-//进入房间 MAIN_GAME_JOIN_ROOM_REQ
+// 进入房间 MAIN_GAME_JOIN_ROOM_REQ
 type JoinRoomReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RoomId        uint64                 `protobuf:"varint,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
@@ -8015,7 +8015,7 @@ func (x *JoinRoomRsp) GetDuration() int64 {
 	return 0
 }
 
-//快速开始 MAIN_GAME_QUICK_START_REQ
+// 快速开始 MAIN_GAME_QUICK_START_REQ
 type QuickStartReq struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	GameId        GameTypeId             `protobuf:"varint,1,opt,name=game_id,json=gameId,proto3,enum=g1.protocol.GameTypeId" json:"game_id,omitempty"`     // 游戏id

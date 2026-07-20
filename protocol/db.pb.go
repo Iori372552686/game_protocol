@@ -22,7 +22,7 @@ const (
 )
 
 // 游戏房间数据db
-//@db:string|Global|DBTexasRoomData:%s,RoomId|#multi
+// @db:string|Global|DBTexasRoomData:%s,RoomId|#multi
 type DBTexasRoomData struct {
 	state             protoimpl.MessageState `protogen:"open.v1"`
 	RoomId            uint64                 `protobuf:"varint,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`
@@ -132,7 +132,7 @@ func (x *DBTexasRoomData) GetTotalJoinCount() int64 {
 }
 
 // 游戏大厅房间信息数据db
-//@db:string|Global|DBTexasRoomCenterInfo:%s,RoomId|#multi
+// @db:string|Global|DBTexasRoomCenterInfo:%s,RoomId|#multi
 type DBTexasRoomCenterInfo struct {
 	state         protoimpl.MessageState   `protogen:"open.v1"`
 	Index         uint64                   `protobuf:"varint,1,opt,name=Index,proto3" json:"Index,omitempty"`                                                                                                 // rid index

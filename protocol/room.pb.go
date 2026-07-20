@@ -573,8 +573,8 @@ func (x *RoomBaseInfo) GetCurPlayerNum() uint32 {
 	return 0
 }
 
-//大厅房间展示信息
-//ROOM_CENTER_INNER_UPDATE_ROOM_INFO_REQ
+// 大厅房间展示信息
+// ROOM_CENTER_INNER_UPDATE_ROOM_INFO_REQ
 type RoomShowInfo struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	RoomId        uint64                 `protobuf:"varint,1,opt,name=room_id,json=roomId,proto3" json:"room_id,omitempty"`

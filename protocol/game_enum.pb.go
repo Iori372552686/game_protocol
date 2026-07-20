@@ -352,7 +352,7 @@ func (GameCompetitionType) EnumDescriptor() ([]byte, []int) {
 type GameTypeId int32
 
 const (
-	//texas
+	// texas
 	GameTypeId_TEXAS_MODE_START GameTypeId = 0 // texas玩法开始
 	GameTypeId_TEXAS_NORMAL     GameTypeId = 1 // 德州常规玩法
 	GameTypeId_TEXAS_SHORT      GameTypeId = 2 // 德州短牌玩法
@@ -361,7 +361,7 @@ const (
 	GameTypeId_TEXAS_PLO5       GameTypeId = 5 // 德州omaha 5张
 	GameTypeId_TEXAS_PLO6       GameTypeId = 6 // 德州omaha 6张
 	GameTypeId_TEXAS_MODE_END   GameTypeId = 7 // texas玩法结束
-	//rummy
+	// rummy
 	GameTypeId_RUMMY_MODE_START GameTypeId = 20 // RUMMY玩法开始
 	GameTypeId_RUMMY_NORMAL     GameTypeId = 21 // RUMMY常规玩法
 )
@@ -691,7 +691,7 @@ func (RoomSortType) EnumDescriptor() ([]byte, []int) {
 	return file_proto_core_game_enum_proto_rawDescGZIP(), []int{10}
 }
 
-//游戏状态操作type
+// 游戏状态操作type
 type OperateType int32
 
 const (
@@ -762,7 +762,7 @@ func (OperateType) EnumDescriptor() ([]byte, []int) {
 	return file_proto_core_game_enum_proto_rawDescGZIP(), []int{11}
 }
 
-//游戏事件类型
+// 游戏事件类型
 type GameNotifyType int32
 
 const (
@@ -787,9 +787,9 @@ const (
 	GameNotifyType_EVENT_GAME_RESUME     GameNotifyType = 18 // 游戏恢复
 	GameNotifyType_EVENT_GAME_RESET      GameNotifyType = 19 // 游戏重置
 	GameNotifyType_EVENT_BLIND           GameNotifyType = 20 // 涨盲
-	//EVENT_BET_FOLP        = 21; // 转牌后前注
-	//EVENT_BET_TURN        = 22; // 转牌后前注
-	//EVENT_BET_RIVER       = 23; // 河牌后前注
+	// EVENT_BET_FOLP        = 21; // 转牌后前注
+	// EVENT_BET_TURN        = 22; // 转牌后前注
+	// EVENT_BET_RIVER       = 23; // 河牌后前注
 	GameNotifyType_EVENT_FLOP_CARD GameNotifyType = 24 // 翻牌，翻转牌，翻和牌
 )
 

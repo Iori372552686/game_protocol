@@ -12,7 +12,7 @@ option go_package = "github.com/Iori372552686/game_protocol/protocol;g1_protocol
 import "proto/config/enum_config.proto";
 import "proto/config/struct_config.proto";
 
-message DropItemConfing {
+message DropItemConfig {
     int32  DropItemId  = 1; // 掉落物品Id
     int32  DropId      = 2; // 掉落Id
     int32  ItemId      = 3; // 物品Id
@@ -24,8 +24,8 @@ message DropItemConfing {
     int32  IsShow      = 9; // 是否展示
 }
 
-message DropItemConfingAry {
-    repeated DropItemConfing Ary = 1;
+message DropItemConfigAry {
+    repeated DropItemConfig Ary = 1;
 }
 
 message ItemConfig {

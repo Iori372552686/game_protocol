@@ -47,7 +47,7 @@ const (
 	// 登出
 	CMD_MAIN_LOGOUT_REQ CMD = 131074
 	CMD_MAIN_LOGOUT_RSP CMD = 131075
-	//心跳
+	// 心跳
 	CMD_MAIN_HEARTBEAT_REQ CMD = 131076
 	CMD_MAIN_HEARTBEAT_RSP CMD = 131077
 	// 道具使用
@@ -156,7 +156,7 @@ const (
 	CMD_MAIN_QUERY_GAME_INFO_REQ           CMD = 131660 // 查询游戏信息
 	CMD_MAIN_QUERY_GAME_INFO_RSP           CMD = 131661
 	// ~~~~~~~~~~通知类~~~~~~~~~
-	//单个任务更新通知
+	// 单个任务更新通知
 	CMD_MAIN_NOTIFY_ACTIVITY_TASK_SINGLE_UPDATE CMD = 143361
 	// 设置角色信息
 	CMD_MAIN_GM_GET_ROLE_REQ          CMD = 172032
@@ -221,7 +221,7 @@ const (
 	CMD_ROOM_CENTER_INNER_QUICK_START_RSP      CMD = 724999
 	CMD_ROOM_CENTER_INNER_TICK_REQ             CMD = 725000 // tick
 	CMD_ROOM_CENTER_INNER_TICK_RSP             CMD = 725001
-	//------------s2s inner cmd ---------------
+	// ------------s2s inner cmd ---------------
 	CMD_TEXAS_INNER_CREATEROOM_REQ           CMD = 5246976 // 创建房间
 	CMD_TEXAS_INNER_CREATEROOM_RSP           CMD = 5246977
 	CMD_TEXAS_INNER_JOINROOM_REQ             CMD = 5246978 // 加入房间
@@ -782,7 +782,7 @@ func (CMD) EnumDescriptor() ([]byte, []int) {
 	return file_proto_core_cmd_proto_rawDescGZIP(), []int{0}
 }
 
-//[ 结构名 = cmd Val] client映射结构名使用，需要跟上面的定义同步增加
+// [ 结构名 = cmd Val] client映射结构名使用，需要跟上面的定义同步增加
 type CmdTo int32
 
 const (
@@ -816,7 +816,7 @@ const (
 	// 登出
 	CmdTo_LogoutReq CmdTo = 131074
 	CmdTo_LogoutRsp CmdTo = 131075
-	//心跳
+	// 心跳
 	CmdTo_HeartBeatReq CmdTo = 131076
 	CmdTo_HeartBeatRsp CmdTo = 131077
 	// 道具使用
